@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/yuyin/css/essay.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <script type="text/javascript" src="/yuyin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/js/jquery.cookie.js"></script>
+    <script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <title>余音</title>
+    <style>
+        #laypage{
+            text-align:center;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+<div ng-app="essayDetailApp" ng-controller="essayDetailContro" ng-cloak>
+<div class="header">
+    <div class="header-ct">
+        <a href="" class="nav" style="font-size: 18px">余音
+        </a>
+        <div class="nav">
+            <ul class="clearfix">
+                <li><a href="/yuyin/periodical">期刊</a></li>
+                <li><a href="/yuyin/single">单曲</a></li>
+                <li><a href="/yuyin/essay">专栏</a></li>
+            </ul>
+        </div>
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==1">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    登录
+                </a>
+            </div>
+        </div>
+
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    [[userName]]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container ct-sm">
+    <nav class="article-nav">
+        <a href="/yuyin/periodical" class="nav-back">
+            <i class="icon-back"></i>
+            返回专栏首页
+        </a>
+    </nav>
+    <div class="essay-detail-wrapper">
+        <h1 class="essay-title">[[item.title]]</h1>
+        <p class="essay-meta"><span>[[item.author]]</span>・[[item.createtime]]</p>
+        <div class="essay-music">
+            <div class="vol-tracklist">
+                <ul>
+                    <li class="track-item">
+            <div class="track-wrapper clearfix">
+                <span class="btn-control" ng-click="play(item.id)">
+                    <i class="icon icon-status-play" style="display: inline-block;" ng-show="playstatus==1"></i>
+                    <i class="icon icon-status-pause" style="display: inline-block;" ng-show="playstatus==0"></i>
+                </span>
+                <a href="javascript:;" id="[[item.id]]" class="trackname" ng-click="play(item.id)">
+                    [[item.musicname]]
+                </a>
+                <div class="artist">[[item.singer]]</div>
+                <audio id="audio[[item.id]]" ng-src="[[item.musicpath | trustSrc]]"></audio>
+            </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="essay-content" ng-bind-html="item.content | trustHtml">
+        </div>
+        <div class="essay-share">
+            <a href="javascript:;" class="btn-action-like" title="收藏" ng-click="collect(item.id)">
+                <span class="icon-essay-fav"></span>
+            </a>
+        </div>
+        <div class="essay-author-wrapper clearfix">
+            <div class="essay-author">
+                <p class="title">
+                    文章作者
+                </p>
+
+                <div class="clearfix">
+                    <!--<a href="" class="avatar-wrapper">
+                        <img src="http://wx3.sinaimg.cn/large/ae21ae1bgy1fcueh94nc7j215o0ng19u.jpg" alt="Eskimos" class="avatar rounded">
+                    </a>-->
+                    <div class="essay-author-info">
+                        <div class="cell">
+                            <a href="" class="essay-author-name">
+                                [[item.author]]
+                            </a>
+                            <p class="essay-author-sign"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p class="title">
+                    版权声明
+                </p>
+                <div class="copyright-ct">
+                    专栏内文章，未经作者许可，不得转载、摘编。一经发现，自行承担全部法律责任。 谢谢合作。
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="comment-wrapper" id="comment">
+        <h3 class="volcount">评论</h3>
+
+        <div class="comment-editor">
+            <div class="editor-wrapper">
+                    <div class="editor rounded">
+                        <textarea name="content" spellcheck="false" id="commentEditor" autocomplete="off"></textarea>
+                    </div>
+                    <div class="toolbar rounded clearfix">
+                        <button class="btn btn-positive" ng-click="comment()">发布</button>
+                    </div>
+                  <!--  <input type="hidden" name="app_id" value="1">
+                    <input type="hidden" name="res_id" value="982">-->
+            </div>
+            <!-- editor-wrapper end-->
+        </div>
+    </div>
+    <div class="comment-list" id="commentList">
+        <a href="" class="avatar-wrapper" target="_blank">
+            <img src="https://avatars1.githubusercontent.com/u/18554575" alt="月落天涯" class="avatar rounded">
+        </a>
+        <div class="item-wrapper">
+            <div class="helper">
+                <a href="" class="username">hxiaope</a>
+            </div>
+            <div class="comment-ct">
+                <p class="the-comment">生活折磨着我们，我们就带上耳机自己找乐，自己跳，自己蹦，自己嗨到天外之外</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--<script src="../js/script.js"></script>-->
+<script src="../js/query/essayDetail.js"></script>
+</body>
+</html>

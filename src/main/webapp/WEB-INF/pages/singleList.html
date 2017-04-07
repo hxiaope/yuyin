@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/yuyin/css/musician.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <script type="text/javascript" src="/yuyin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <title>余音</title>
+    <style>
+    	#laypage{
+    		text-align:center;
+    		margin:0 auto;
+    	}
+    </style>
+</head>
+<body>
+<div ng-app="singleListApp" ng-controller="singleListContro" ng-cloak>
+<div class="header">
+    <div class="header-ct">
+        <a href="/yuyin" class="nav" style="font-size: 18px">余音
+        </a>
+        <div class="nav">
+            <ul class="clearfix">
+                <li><a href="/yuyin/periodical">期刊</a></li>
+                <li><a href="/yuyin/single">单曲</a></li>
+                <li><a href="/yuyin/essay">专栏</a></li>
+            </ul>
+        </div>
+        <div class="logged-in-wrapper" style="display: block">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    <img src="" alt="" class="avatar">hxiaope
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+<div class="musician-banner clearfix" ng-repeat="item in singleList">
+    <img ng-src="[[item.singleimage]]" alt="[[item.musicname]]" class="cover">
+    <div class="meta">
+        <a href="javascript:;" class="title" id="[[item.id]]" ng-click="play(item.id)">
+            [[item.musicname]]
+            <span class="icon-play" style="display: inline-block;" ng-show="playstatus==0&&playId==item.id" ng-click="play(item.id)"></span>
+            <span class="icon-pause" style="display: inline-block;" ng-show="playstatus==1&&playId==item.id" ng-click="play(item.id)"></span>
+        </a>
+        <audio id="audio[[item.id]]" ng-src="[[item.musicpath | trustSrc]]"></audio>
+        <p class="performer">[[item.singer]]</p>
+        <p class="remark">
+            <span class="quote-before"></span>
+            <span>[[item.singlecontent]]</span>
+            <span class="quote-after"></span></p>
+        <p class="date">推荐人： [[item.singleauthor]]・[[item.createtime]]</p>
+        <div class="sns">
+            <a href="javascript:;" class="icon-share btn-action-share"></a>
+            <a href="javascript:;" class="btn-action-like icon-fav">
+            </a>
+        </div>
+    </div>
+</div>
+<div id="laypage"></div>
+</div>
+</div>
+<script type="text/javascript">
+	var singleListApp=angular.module('singleListApp',[]);
+	singleListApp.config(function($interpolateProvider){
+		$interpolateProvider.startSymbol('[[').endSymbol(']]');
+	});
+    singleListApp.filter('trustSrc', function ($sce) {
+        return function (url) {
+            return $sce.trustAsResourceUrl(url);
+        }
+    });
+	singleListApp.controller('singleListContro',function($http,$scope){
+		var layer=layui.layer;
+		var laypage=layui.laypage;
+		var pageRow=10;
+		var pageNum=1;
+		$scope.query=function(){
+			var param1=$scope.pageNum;
+			var param2=$scope.pageRow;
+			$.ajax({
+				type:'post',
+				url:'/yuyin/single',
+				data:{"pageNum":param1,"pageRow":param2},
+				success:function(res){
+					if(res.rows!=null){
+						console.log(res.rows);
+						$scope.singleList=res.rows;
+						$scope.pageSize=res.pageSize;
+						$scope.pageNum=res.pageNum;
+						$scope.pageInit();
+						$scope.$apply();
+					}
+				},
+				error:function(res){
+					layer.alert("异常",{icon:5});
+				}
+			});
+		}
+		$scope.pageInit=function(){
+			laypage({
+		    	cont:'laypage',
+		    	pages:$scope.pageSize,
+		    	curr:$scope.pageNum,
+		    	jump:function (obj,first){
+		    		if(!first){
+		    			var param1=obj.curr;
+		    			var param2=$scope.pageRow;
+		    			//请求
+		    			$.ajax({
+		    				type:'post',
+		    				url:'/yuyin/single',
+		    				data:{"pageNum":param1,"pageRow":param2},
+		    				success:function (res){
+		    					$scope.singleList=res.rows;
+								$scope.pageSize=res.pageSize;
+								$scope.pageNum=res.pageNum;
+								$scope.pageInit();
+								$scope.$apply();
+		    				},
+		    				error:function (res){
+		    					layer.alert("查询异常",{icon:5});
+		    				}
+		    			});
+		    		}
+		    	}
+		    });
+		}
+		$scope.play=function(id){
+            var key="#audio"+id;
+            var music =$(key)[0];
+            if(music.paused){
+                $scope.playstatus=0;
+                $scope.playId=id;
+                music.play();
+                $scope.playstatus=1;
+            }else{
+                $scope.playstatus=0;
+                $scope.playId=id;
+                music.pause();
+            }
+        }
+		function init(){
+			$scope.pageRow=10;
+			$scope.pageNum=1;
+			$scope.query();
+			//$scope.playstatus=0;
+		}
+		init();
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>余音后台管理系统</title>
+<link href="/yuyin/layui/css/layui.css" rel="stylesheet" media="all">
+<script type="text/javascript" src="/yuyin/layui/layui.js"></script>
+<style type="text/css">
+        html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            }
+
+        .login{
+            position: absolute;
+            top: 50%;
+            left:50%;
+            margin: -150px 0 0 -150px;
+            width: 340px;
+            height: 250px;
+            background-color: #f2f2f2;
+        }
+        h1{
+            position: relative;
+        }
+    </style>
+</head>
+<body bgcolor="#d2d2d2">
+<div class="login">
+    <form class="layui-form">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>余音后台管理系统</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱帐号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input" placeholder="Example@mail.com">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+            </div>
+        </div>
+    </form>
+</div>
+    <script>
+        layui.use(['jquery','layer','form'], function(){
+        	var $=layui.jquery,layer=layui.layer,form = layui.form();
+            form.verify({
+                pass: [/(.+){6,12}$/, '密码必须6到12位']
+            });
+             form.on('submit(formDemo)', function(data){
+                //alert(data.field.password+data.field.email);
+                $.ajax({
+                    url:'/yuyin/login',
+                    type:'post',
+                    data:{'email':data.field.email,'password':data.field.password},
+                    dataType:'json',
+                    success:function(el){
+                        //alert(el);
+                        if(el==200){
+                        	layer.alert('用户不存在', {icon: 5});
+                        }
+                        else if(el==201){
+                        	layer.alert('密码错误', {icon: 5});
+                        }
+                        else{
+                        	layer.alert('登录成功', {icon: 6},function(){
+                        		window.location.href="/yuyin/showAdmin";
+                        	});
+                        }
+                    },
+                    error:function(el){
+                    	layer.alert('密码错误', {icon: 5});
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

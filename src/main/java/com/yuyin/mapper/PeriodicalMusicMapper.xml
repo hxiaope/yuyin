@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuyin.mapper.PeriodicalMusicMapper" >
+  <resultMap id="BaseResultMap" type="com.yuyin.pojo.PeriodicalMusic" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="periodical_id" property="periodicalId" jdbcType="BIGINT" />
+    <result column="music_id" property="musicId" jdbcType="BIGINT" />
+    <result column="musicimage" property="musicimage" jdbcType="VARCHAR" />
+    <result column="musicpath" property="musicpath" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="musicname" property="musicname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, periodical_id, music_id, musicimage, musicpath, createtime, musicname
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yuyin.pojo.PeriodicalMusicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from periodical_music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from periodical_music
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from periodical_music
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yuyin.pojo.PeriodicalMusicExample" >
+    delete from periodical_music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yuyin.pojo.PeriodicalMusic" >
+    insert into periodical_music (id, periodical_id, music_id, 
+      musicimage, musicpath, createtime, 
+      musicname)
+    values (#{id,jdbcType=BIGINT}, #{periodicalId,jdbcType=BIGINT}, #{musicId,jdbcType=BIGINT}, 
+      #{musicimage,jdbcType=VARCHAR}, #{musicpath,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, 
+      #{musicname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuyin.pojo.PeriodicalMusic" >
+    insert into periodical_music
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="periodicalId != null" >
+        periodical_id,
+      </if>
+      <if test="musicId != null" >
+        music_id,
+      </if>
+      <if test="musicimage != null" >
+        musicimage,
+      </if>
+      <if test="musicpath != null" >
+        musicpath,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="musicname != null" >
+        musicname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="periodicalId != null" >
+        #{periodicalId,jdbcType=BIGINT},
+      </if>
+      <if test="musicId != null" >
+        #{musicId,jdbcType=BIGINT},
+      </if>
+      <if test="musicimage != null" >
+        #{musicimage,jdbcType=VARCHAR},
+      </if>
+      <if test="musicpath != null" >
+        #{musicpath,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="musicname != null" >
+        #{musicname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yuyin.pojo.PeriodicalMusicExample" resultType="java.lang.Integer" >
+    select count(*) from periodical_music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update periodical_music
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.periodicalId != null" >
+        periodical_id = #{record.periodicalId,jdbcType=BIGINT},
+      </if>
+      <if test="record.musicId != null" >
+        music_id = #{record.musicId,jdbcType=BIGINT},
+      </if>
+      <if test="record.musicimage != null" >
+        musicimage = #{record.musicimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.musicpath != null" >
+        musicpath = #{record.musicpath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.musicname != null" >
+        musicname = #{record.musicname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update periodical_music
+    set id = #{record.id,jdbcType=BIGINT},
+      periodical_id = #{record.periodicalId,jdbcType=BIGINT},
+      music_id = #{record.musicId,jdbcType=BIGINT},
+      musicimage = #{record.musicimage,jdbcType=VARCHAR},
+      musicpath = #{record.musicpath,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      musicname = #{record.musicname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuyin.pojo.PeriodicalMusic" >
+    update periodical_music
+    <set >
+      <if test="periodicalId != null" >
+        periodical_id = #{periodicalId,jdbcType=BIGINT},
+      </if>
+      <if test="musicId != null" >
+        music_id = #{musicId,jdbcType=BIGINT},
+      </if>
+      <if test="musicimage != null" >
+        musicimage = #{musicimage,jdbcType=VARCHAR},
+      </if>
+      <if test="musicpath != null" >
+        musicpath = #{musicpath,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="musicname != null" >
+        musicname = #{musicname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuyin.pojo.PeriodicalMusic" >
+    update periodical_music
+    set periodical_id = #{periodicalId,jdbcType=BIGINT},
+      music_id = #{musicId,jdbcType=BIGINT},
+      musicimage = #{musicimage,jdbcType=VARCHAR},
+      musicpath = #{musicpath,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      musicname = #{musicname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

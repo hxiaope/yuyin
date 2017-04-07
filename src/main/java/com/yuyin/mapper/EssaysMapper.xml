@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuyin.mapper.EssaysMapper" >
+  <resultMap id="BaseResultMap" type="com.yuyin.pojo.Essays" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="music_id" property="musicId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="imagepath" property="imagepath" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="subscribe" property="subscribe" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yuyin.pojo.Essays" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, music_id, title, imagepath, author, createtime, subscribe
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yuyin.pojo.EssaysExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from essays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yuyin.pojo.EssaysExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from essays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from essays
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from essays
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yuyin.pojo.EssaysExample" >
+    delete from essays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yuyin.pojo.Essays" >
+    insert into essays (id, music_id, title, 
+      imagepath, author, createtime, 
+      subscribe, content)
+    values (#{id,jdbcType=BIGINT}, #{musicId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{imagepath,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, 
+      #{subscribe,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuyin.pojo.Essays" >
+    insert into essays
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="musicId != null" >
+        music_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="imagepath != null" >
+        imagepath,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="subscribe != null" >
+        subscribe,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="musicId != null" >
+        #{musicId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imagepath != null" >
+        #{imagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe != null" >
+        #{subscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yuyin.pojo.EssaysExample" resultType="java.lang.Integer" >
+    select count(*) from essays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update essays
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.musicId != null" >
+        music_id = #{record.musicId,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagepath != null" >
+        imagepath = #{record.imagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subscribe != null" >
+        subscribe = #{record.subscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update essays
+    set id = #{record.id,jdbcType=BIGINT},
+      music_id = #{record.musicId,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      imagepath = #{record.imagepath,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      subscribe = #{record.subscribe,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update essays
+    set id = #{record.id,jdbcType=BIGINT},
+      music_id = #{record.musicId,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      imagepath = #{record.imagepath,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      subscribe = #{record.subscribe,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuyin.pojo.Essays" >
+    update essays
+    <set >
+      <if test="musicId != null" >
+        music_id = #{musicId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imagepath != null" >
+        imagepath = #{imagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe != null" >
+        subscribe = #{subscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yuyin.pojo.Essays" >
+    update essays
+    set music_id = #{musicId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      imagepath = #{imagepath,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      subscribe = #{subscribe,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuyin.pojo.Essays" >
+    update essays
+    set music_id = #{musicId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      imagepath = #{imagepath,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      subscribe = #{subscribe,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--========================================================================================  -->
+  <resultMap id="BaseResultMapExt" type="com.yuyin.pojo.EssayVo">
+  	<id column="id" property="id" jdbcType="BIGINT" />
+    <result column="music_id" property="musicId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="imagepath" property="imagepath" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="subscribe" property="subscribe" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="musicname" property="musicname" jdbcType="VARCHAR" />
+    <result column="singer" property="singer" jdbcType="VARCHAR" />
+    <result column="album" property="album" jdbcType="VARCHAR" />
+    <result column="musicimage" property="musicimage" jdbcType="VARCHAR" />
+    <result column="musicpath" property="musicpath" jdbcType="VARCHAR" />
+    <result column="musictime" property="musictime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="BaseColumnListExt" >
+    essays.id as id,essays.title,essays.imagepath,essays.author,essays.createtime,essays.subscribe,essays.content,
+    music.id as musicId,music.musicname,music.singer,music.album,music.musicimage,music.musicpath,music.musictime
+  </sql>
+  <sql id="queryMain">
+  	essays LEFT JOIN music ON essays.music_id=music.id
+  </sql>
+  <sql id="queryInfo">
+  	<if test="record.id!=null">
+		and essays.id =#{record.id}
+	</if>
+	<if test="record.musicname!=null">
+		and music.musicname like '%${record.musicname}%'
+	</if>
+	<if test="record.title!=null">
+		and essays.title like '%${record.title}%'
+	</if>
+  </sql>
+  <select id="queryEssayList" parameterType="com.yuyin.pojo.EssayVo" resultMap="BaseResultMapExt">
+  	 select
+  	 <include refid="BaseColumnListExt"/>
+  	 from 
+  	 <include refid="queryMain"/>
+  	 where 1=1
+  	 <include refid="queryInfo"/>
+  	 ORDER BY essays.createtime DESC
+  </select>
+  <!-- 支持批量删除 -->
+  <delete id="deleteEssay">
+  	delete from essays where id in
+  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </delete>
+
+  <select id="getEssayAndMusic" resultMap="BaseResultMapExt">
+      SELECT <include refid="BaseColumnListExt"/>
+      from <include refid="queryMain"/>
+      WHERE essays.id=#{id}
+  </select>
+</mapper>

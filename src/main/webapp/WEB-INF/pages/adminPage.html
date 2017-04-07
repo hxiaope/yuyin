@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/mystyle.css">
+    <link rel="icon" href="/yuyin/images/bg.jpg">
+</head>
+<body>
+<div class="my-header">
+    <a href="javascript:;">
+        <!--<img class="my-header-logo" src="" alt="logo">-->
+        <a href="/yuyin/showAdmin"><div class="my-header-logo">余音后台管理系统</div></a>
+    </a>
+    <ul class="layui-nav my-header-user-nav" lay-filter="demo">
+        <li class="layui-nav-item">
+            <a href="javascript:;"><img src="https://avatars1.githubusercontent.com/u/18554575?v=3&s=460" alt="logo"> Admin </a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" href-url="/yuyin/showUserEdit">修改个人信息</a></dd>
+                <dd><a href="javascript:void(0)" id="logout">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+<div class="my-side">
+    <ul class="layui-nav layui-nav-tree " lay-filter="demo">
+        <li class="layui-nav-item">
+            <a href="javascript:;">板块管理</a>
+            <dl class="layui-nav-child">
+                <dd class="layui-this"><a href="javascript:;" href-url="/yuyin/showQueryPeriodical">期刊管理</a></dd>
+                <dd><a href="javascript:;" href-url="/yuyin/showQuerySingle">单曲管理</a></dd>
+                <dd><a href="javascript:;" href-url="/yuyin/showQueryEssay">专栏管理</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">板块发布</a>
+            <dl class="layui-nav-child">
+                <dd class="layui-this"><a href="javascript:;" href-url="/yuyin/showAddPeriodical">发布期刊</a></dd>
+                <dd><a href="javascript:;" href-url="/yuyin/showAddSingle">发布单曲</a></dd>
+                <dd><a href="javascript:;" href-url="/yuyin/showAddEssay">发布专栏</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;" href-url="/yuyin/showTagManager">标签管理</a>
+        </li>
+    </ul>
+</div>
+<div class="my-body">
+    <iframe id="iframe" src="/yuyin/showWelcome" frameborder="0"></iframe>
+</div>
+
+<script src="/yuyin/layui/layui.js"></script>
+<script>
+    layui.use(['layer','jquery','element'], function(){
+        var layer = layui.layer,
+            $ = layui.jquery,
+            element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航(side)点击切换页面
+        element.on('nav(demo)', function(elem){
+            var src = elem.children('a').attr('href-url');
+            if(src != null && src != ''){
+                $('#iframe').attr('src',src);
+            }
+        });
+            
+       $(document).on('click','#logout',function(){
+    	  layer.alert("确定退出",{icon: 5},function(){
+    		  window.location.href="/yuyin/logout";
+    	  }); 
+       });
+    });
+</script>
+</body>
+</html>

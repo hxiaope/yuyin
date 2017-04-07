@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>期刊查询结果</title>
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/mystyle.css">
+    <link rel="stylesheet" href="/yuyin/css/vol.css">
+    <script type="text/javascript" src="/yuyin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/yuyin/js/angular.min.js"></script>
+    <script type="text/javascript" src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <script type="text/javascript" src="/yuyin/js/query/queryPeriodical.js"></script>
+    <link rel="icon" href="/yuyin/images/bg.jpg">
+    <style>
+table {
+	table-layout: fixed; /* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+	width: 100%;
+}
+
+td {
+	width: 100%;
+	word-break: keep-all; /* 不换行 */
+	white-space: nowrap; /* 不换行 */
+	overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+	text-overflow: ellipsis;
+	/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.my-number {
+	background-color: #dd5862;
+	border-radius: 32px;
+	position: absolute;
+	left: 0px;
+	height: 63px;
+	line-height: 63px;
+	width: 63px;
+	text-align: center;
+	font-size: 18px;
+	color: #FFF
+}
+</style>
+</head>
+<body ng-app="queryPeriodicalApp" ng-controller="queryPeriodicalContro" ng-cloak>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>期刊查询结果</legend>
+</fieldset>
+<div class="my-btn-box">
+    <span class="fr">
+        <span class="layui-form-label">搜索条件：</span>
+        <div class="layui-input-inline">
+            <input type="text" ng-model="title" autocomplete="off" placeholder="请输入搜索条件:标题" class="layui-input">
+        </div>
+        <button class="layui-btn mgl-20" ng-click="btnquery()">查询</button>
+    </span>
+    <span class="fl">
+        &nbsp;&nbsp;<a class="layui-btn layui-btn-danger radius btn-delect" ng-click="delPeriodicalIds()">
+            <i class="linyer icon-delect"></i>批量删除</a>
+    </span>
+</div>
+
+<table id="dateTable" class="layui-table">
+    <thead>
+    <tr>
+        <th style="width: 30px"><input type="checkbox" class="my-checkbox" /></th>
+        <th style="width: 100px">id</th>
+        <th>标题</th>
+        <th>封面图片</th>
+        <th>内容</th>
+        <th>标签</th>
+        <th>作者</th>
+        <th style="width: 80px">创建时间</th>
+        <th style="width: 165px">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in periodicalList">
+        <td><input type="checkbox" name="id" class="my-checkbox" value="[[item.id]]"/></td>
+        <td>[[item.id]]</td>
+        <td>[[item.title]]</td>
+        <td>[[item.imagepath]]</td>
+        <td>[[item.content]]</td>
+        <td>[[item.tag]]</td>
+        <td>[[item.author]]</td>
+        <td>[[item.createtime]]</td>
+        <td>
+            <button class="layui-btn layui-btn-small" ng-click="showPeriodical(item)">查看</button>
+            <button class="layui-btn layui-btn-small layui-btn-danger" ng-click="delPeriodical(item)">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div id="laypage" align="center"></div>
+<div id="showPeriodical" ng-show="showsure" class="container ct-sm" style="min-height:200px">
+	<h1 class="vol-name">
+        <span class="my-number">[[detail.id]]</span>
+        <span class="vol-title">[[detail.title]]</span>
+    </h1>
+    <div class="vol-cover-wrapper" id="volCoverWrapper">
+        <span class="vol-cover">[[detail.imagepath]]</span>
+    </div>
+    <div class="vol-desc">[[detail.content]]</div>
+    <div class="clearfix vol-meta">
+        <a class="vol-author" href="javascript:;">[[detail.author]]</a>
+        <span class="separator fleft">・</span>
+        <span class="vol-date">[[detail.createtime]]</span>
+    </div>
+    <br>
+    <table class="layui-table">
+    	<thead>
+    		<th>ID</th>
+    		<th>歌名</th>
+    		<th>歌手</th>
+    	</thead>
+    	<tbody>
+    		<tr ng-repeat="list in detail.music">
+    			<td>[[list.id]]</td>
+    			<td>[[list.musicname]]</td>
+    			<td>[[list.singer]]</td>
+    		</tr>
+    	</tbody>
+    </table>
+</div>
+</body>
+</html>

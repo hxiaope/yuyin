@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuyin.mapper.SingleMapper" >
+  <resultMap id="BaseResultMap" type="com.yuyin.pojo.Single" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="music_id" property="musicId" jdbcType="BIGINT" />
+    <result column="singleauthor" property="singleauthor" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="singleimage" property="singleimage" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yuyin.pojo.Single" extends="BaseResultMap" >
+    <result column="singlecontent" property="singlecontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, music_id, singleauthor, createtime, singleimage
+  </sql>
+  <sql id="Blob_Column_List" >
+    singlecontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yuyin.pojo.SingleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from single
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yuyin.pojo.SingleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from single
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from single
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from single
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yuyin.pojo.SingleExample" >
+    delete from single
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yuyin.pojo.Single" >
+    insert into single (id, music_id, singleauthor, 
+      createtime, singleimage, singlecontent
+      )
+    values (#{id,jdbcType=BIGINT}, #{musicId,jdbcType=BIGINT}, #{singleauthor,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR}, #{singleimage,jdbcType=VARCHAR}, #{singlecontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuyin.pojo.Single" >
+    insert into single
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="musicId != null" >
+        music_id,
+      </if>
+      <if test="singleauthor != null" >
+        singleauthor,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="singleimage != null" >
+        singleimage,
+      </if>
+      <if test="singlecontent != null" >
+        singlecontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="musicId != null" >
+        #{musicId,jdbcType=BIGINT},
+      </if>
+      <if test="singleauthor != null" >
+        #{singleauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="singleimage != null" >
+        #{singleimage,jdbcType=VARCHAR},
+      </if>
+      <if test="singlecontent != null" >
+        #{singlecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yuyin.pojo.SingleExample" resultType="java.lang.Integer" >
+    select count(*) from single
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update single
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.musicId != null" >
+        music_id = #{record.musicId,jdbcType=BIGINT},
+      </if>
+      <if test="record.singleauthor != null" >
+        singleauthor = #{record.singleauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singleimage != null" >
+        singleimage = #{record.singleimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singlecontent != null" >
+        singlecontent = #{record.singlecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update single
+    set id = #{record.id,jdbcType=BIGINT},
+      music_id = #{record.musicId,jdbcType=BIGINT},
+      singleauthor = #{record.singleauthor,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      singleimage = #{record.singleimage,jdbcType=VARCHAR},
+      singlecontent = #{record.singlecontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update single
+    set id = #{record.id,jdbcType=BIGINT},
+      music_id = #{record.musicId,jdbcType=BIGINT},
+      singleauthor = #{record.singleauthor,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      singleimage = #{record.singleimage,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuyin.pojo.Single" >
+    update single
+    <set >
+      <if test="musicId != null" >
+        music_id = #{musicId,jdbcType=BIGINT},
+      </if>
+      <if test="singleauthor != null" >
+        singleauthor = #{singleauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="singleimage != null" >
+        singleimage = #{singleimage,jdbcType=VARCHAR},
+      </if>
+      <if test="singlecontent != null" >
+        singlecontent = #{singlecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yuyin.pojo.Single" >
+    update single
+    set music_id = #{musicId,jdbcType=BIGINT},
+      singleauthor = #{singleauthor,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      singleimage = #{singleimage,jdbcType=VARCHAR},
+      singlecontent = #{singlecontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuyin.pojo.Single" >
+    update single
+    set music_id = #{musicId,jdbcType=BIGINT},
+      singleauthor = #{singleauthor,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      singleimage = #{singleimage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 支持批量删除 -->
+  <delete id="deleteSingleByIds">
+  	delete from single where id in
+  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </delete>
+  
+  
+  <resultMap id="BaseResultMapExt" type="com.yuyin.pojo.SingleVo">
+  	<id column="id" property="id" jdbcType="BIGINT" />
+    <result column="music_id" property="musicId" jdbcType="BIGINT" />
+    <result column="singleauthor" property="singleauthor" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="singleimage" property="singleimage" jdbcType="VARCHAR" />
+    <result column="singlecontent" property="singlecontent" jdbcType="LONGVARCHAR" />
+    <result column="musicname" property="musicname" jdbcType="VARCHAR" />
+    <result column="singer" property="singer" jdbcType="VARCHAR" />
+    <result column="album" property="album" jdbcType="VARCHAR" />
+    <result column="musicimage" property="musicimage" jdbcType="VARCHAR" />
+    <result column="musicpath" property="musicpath" jdbcType="VARCHAR" />
+    <result column="musictime" property="musictime" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="queryList" resultMap="BaseResultMapExt" parameterType="com.yuyin.pojo.SingleVo">
+  	 select 
+  	 	single.id as id,single.singleauthor,single.createtime,single.singleimage,
+		single.singlecontent,music.id as musicId,music.musicname,music.singer,music.album,
+		music.musicimage,music.musicpath,music.musictime 
+	from single LEFT JOIN music ON single.music_id=music.id
+	where 1=1
+	<if test="record.id!=null">
+		and single.id =#{record.id}
+	</if>
+	<if test="record.musicname!=null">
+		and music.musicname like '%${record.musicname}%'
+	</if>
+	<if test="record.singer!=null">
+		and music.musicname like '%${record.singer}%'
+	</if>
+	ORDER BY single.createtime DESC
+  </select>
+</mapper>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>增加专栏</title>
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/mystyle.css">
+    <script src="/yuyin/js/jquery.min.js"></script>
+    <script src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <script src="/yuyin/js/common/service.js"></script>
+    <script src="/yuyin/js/insert/insertEssay.js"></script>
+    <style>
+        .layui-input{
+            width: 500px
+        }
+    </style>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>增加专栏</legend>
+</fieldset>
+<form class="layui-form" ng-app="addEssayApp" ng-controller="addEssayContro" ng-cloak>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">简要描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="subscribe" required  lay-verify="required" placeholder="请输入简要描述" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">歌名</label>
+        <div class="layui-input-block">
+            <input type="text" name="musicname" required  lay-verify="required" placeholder="请输入歌名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">歌手</label>
+        <div class="layui-input-block">
+            <input type="text" name="singer" required  lay-verify="required" placeholder="请输入歌手" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">专辑名</label>
+        <div class="layui-input-block">
+            <input type="text" name="album" required  lay-verify="required" placeholder="请输入专辑名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">音乐图片</label>
+        <div class="layui-inline">
+            <input type="file" name="picFile" class="layui-upload-file" id="mpicupload"/>
+        </div>
+        <div class="layui-inline" id="uploadMpic"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">歌曲文件</label>
+        <div class="layui-inline">
+            <input type="file" name="mscFile" lay-type="audio" lay-title="音乐上传" class="layui-upload-file" id="musicupload"/>
+        </div>
+        <div class="layui-inline" id="uploadMsic"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">封面图片</label>
+        <div class="layui-inline">
+            <input type="file" name="picFile" class="layui-upload-file" id="cpicupload" />
+        </div>
+        <div class="layui-inline" id="uploadCpic"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">创建时间</label>
+        <div class="layui-input-block">
+            <input name="createtime" placeholder="选择时间" class="layui-input" onclick="layui.laydate({elem: this,festival:true})" style="width:100px" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">作者</label>
+        <div class="layui-input-block">
+            <input name="author" class="layui-input" style="width:100px" />
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">专栏内容</label>
+        <div class="layui-input-block">
+            <textarea id="layeditEssay" style="display: none;" lay-verify="content" name="content"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="essayForm">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

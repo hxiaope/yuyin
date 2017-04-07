@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuyin.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.yuyin.pojo.Comment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="periodical_id" property="periodicalId" jdbcType="BIGINT" />
+    <result column="essays_id" property="essaysId" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="form_user" property="formUser" jdbcType="VARCHAR" />
+    <result column="to_user" property="toUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yuyin.pojo.Comment" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, periodical_id, essays_id, createtime, form_user, to_user
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yuyin.pojo.CommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yuyin.pojo.CommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yuyin.pojo.CommentExample" >
+    delete from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yuyin.pojo.Comment" >
+    insert into comment (id, periodical_id, essays_id, 
+      createtime, form_user, to_user, 
+      content)
+    values (#{id,jdbcType=BIGINT}, #{periodicalId,jdbcType=BIGINT}, #{essaysId,jdbcType=BIGINT}, 
+      #{createtime,jdbcType=VARCHAR}, #{formUser,jdbcType=VARCHAR}, #{toUser,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuyin.pojo.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="periodicalId != null" >
+        periodical_id,
+      </if>
+      <if test="essaysId != null" >
+        essays_id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="formUser != null" >
+        form_user,
+      </if>
+      <if test="toUser != null" >
+        to_user,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="periodicalId != null" >
+        #{periodicalId,jdbcType=BIGINT},
+      </if>
+      <if test="essaysId != null" >
+        #{essaysId,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="formUser != null" >
+        #{formUser,jdbcType=VARCHAR},
+      </if>
+      <if test="toUser != null" >
+        #{toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yuyin.pojo.CommentExample" resultType="java.lang.Integer" >
+    select count(*) from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update comment
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.periodicalId != null" >
+        periodical_id = #{record.periodicalId,jdbcType=BIGINT},
+      </if>
+      <if test="record.essaysId != null" >
+        essays_id = #{record.essaysId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formUser != null" >
+        form_user = #{record.formUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toUser != null" >
+        to_user = #{record.toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update comment
+    set id = #{record.id,jdbcType=BIGINT},
+      periodical_id = #{record.periodicalId,jdbcType=BIGINT},
+      essays_id = #{record.essaysId,jdbcType=BIGINT},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      form_user = #{record.formUser,jdbcType=VARCHAR},
+      to_user = #{record.toUser,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update comment
+    set id = #{record.id,jdbcType=BIGINT},
+      periodical_id = #{record.periodicalId,jdbcType=BIGINT},
+      essays_id = #{record.essaysId,jdbcType=BIGINT},
+      createtime = #{record.createtime,jdbcType=VARCHAR},
+      form_user = #{record.formUser,jdbcType=VARCHAR},
+      to_user = #{record.toUser,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuyin.pojo.Comment" >
+    update comment
+    <set >
+      <if test="periodicalId != null" >
+        periodical_id = #{periodicalId,jdbcType=BIGINT},
+      </if>
+      <if test="essaysId != null" >
+        essays_id = #{essaysId,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="formUser != null" >
+        form_user = #{formUser,jdbcType=VARCHAR},
+      </if>
+      <if test="toUser != null" >
+        to_user = #{toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yuyin.pojo.Comment" >
+    update comment
+    set periodical_id = #{periodicalId,jdbcType=BIGINT},
+      essays_id = #{essaysId,jdbcType=BIGINT},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      form_user = #{formUser,jdbcType=VARCHAR},
+      to_user = #{toUser,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuyin.pojo.Comment" >
+    update comment
+    set periodical_id = #{periodicalId,jdbcType=BIGINT},
+      essays_id = #{essaysId,jdbcType=BIGINT},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      form_user = #{formUser,jdbcType=VARCHAR},
+      to_user = #{toUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

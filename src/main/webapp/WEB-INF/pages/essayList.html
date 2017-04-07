@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/yuyin/css/essay.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <script type="text/javascript" src="/yuyin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <title>余音</title>
+    <style>
+    	#laypage{
+    		text-align:center;
+    		margin:0 auto;
+    	}
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="header-ct">
+        <a href="/yuyin" class="nav" style="font-size: 18px">余音
+        </a>
+        <div class="nav">
+            <ul class="clearfix">
+                <li><a href="/yuyin/periodical">期刊</a></li>
+                <li><a href="/yuyin/single">单曲</a></li>
+                <li><a href="/yuyin/essay">专栏</a></li>
+            </ul>
+        </div>
+        <div class="logged-in-wrapper" style="display: block">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    <img src="" alt="" class="avatar">hxiaope
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style="min-height: 200px;" ng-app="essayListApp" ng-controller="essayListContro" ng-cloak>
+    <div class="clearfix" style="position: relative;">
+    <div class="article article-sm">
+        <div class="essay-list">
+            <div class="item" ng-repeat="item in essayList">
+                <a href="/yuyin/essay/[[item.id]]" class="cover-wrapper">
+                    <img class="cover" ng-src="[[item.imagepath]]" alt="[[item.title]]">
+                </a>
+                <div class="essay-wrapper">
+                    <a href="/yuyin/essay/[[item.id]]" title="[[item.title]]" class="title">
+                        [[item.title]]
+                    </a>
+                    <div class="meta">
+                        <a class="entry-author" href="javascript:;">[[item.author]]</a>
+                        <span class="separator">・</span>
+                        <span class="time">[[item.createtime]]</span>
+                    </div>
+                    <div class="subscribe">
+                        [[item.subscribe]]
+                    </div>
+                </div>
+            </div>
+            <div id="laypage"></div>
+        </div>
+    </div>
+   </div>
+</div>
+<script type="text/javascript">
+	var essayListApp=angular.module('essayListApp',[]);
+	essayListApp.config(function($interpolateProvider){
+		$interpolateProvider.startSymbol('[[').endSymbol(']]');
+	});
+	essayListApp.controller('essayListContro',function($http,$scope){
+		var layer=layui.layer;
+		var laypage=layui.laypage;
+		var pageRow=10;
+		var pageNum=1;
+		$scope.query=function(){
+			var param1=$scope.pageNum;
+			var param2=$scope.pageRow;
+			$.ajax({
+				type:'post',
+				url:'/yuyin/essay',
+				data:{"pageNum":param1,"pageRow":param2},
+				success:function(res){
+					if(res.rows!=null){
+						console.log(res.rows);
+						$scope.essayList=res.rows;
+						$scope.pageSize=res.pageSize;
+						$scope.pageNum=res.pageNum;
+						$scope.pageInit();
+						$scope.$apply();
+					}
+				},
+				error:function(res){
+					layer.alert("异常",{icon:5});
+				}
+			});
+		}
+		$scope.pageInit=function(){
+			laypage({
+		    	cont:'laypage',
+		    	pages:$scope.pageSize,
+		    	curr:$scope.pageNum,
+		    	jump:function (obj,first){
+		    		if(!first){
+		    			var param1=obj.curr;
+		    			var param2=$scope.pageRow;
+		    			//请求
+		    			$.ajax({
+		    				type:'post',
+		    				url:'/yuyin/essay',
+		    				data:{"pageNum":param1,"pageRow":param2},
+		    				success:function (res){
+		    					$scope.essayList=res.rows;
+								$scope.pageSize=res.pageSize;
+								$scope.pageNum=res.pageNum;
+								$scope.pageInit();
+								$scope.$apply();
+		    				},
+		    				error:function (res){
+		    					layer.alert("查询异常",{icon:5});
+		    				}
+		    			});
+		    		}
+		    	}
+		    });
+		}
+		function init(){
+			$scope.pageRow=10;
+			$scope.pageNum=1;
+			$scope.query();
+		}
+		init();
+	});
+</script>
+</body>
+</html>

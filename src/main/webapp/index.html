@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>余音</title>
+    <link rel="stylesheet" href="/yuyin/css/index.css">
+	<script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <script type="text/javascript " src="/yuyin/js/jquery.min.js"></script>
+    <script src="/yuyin/js/jquery-ui-1.12.1.min.js"></script>
+    <script src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/js/query/index.js"></script>
+</head>
+<body>
+<div ng-app="indexApp" ng-controller="indexController" ng-cloak>
+<div class="header">
+    <div class="header-ct">
+        <a href="/yuyin" class="nav" style="font-size: 18px">余音
+        </a>
+        <div class="nav">
+            <ul class="clearfix">
+                <li><a href="/yuyin/periodical">期刊</a></li>
+                <li><a href="/yuyin/single">单曲</a></li>
+                <li><a href="/yuyin/essay">专栏</a></li>
+            </ul>
+        </div>
+        <div class="logged-in-wrapper" style="display: block">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    <img src="" alt="" class="avatar">hxiaope
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container index-ct">
+    <div class="section-vol">
+        <div class="section-head clearfix">
+            <h3><span class="section-head-label"></span>音乐期刊</h3>
+            <div class="fright">
+                <a href="/yuyin/periodical" class="tag ln-more">更多<span class="icon-more"></span></a>
+            </div>
+        </div>
+
+        <div class="section-ct clearfix">
+            <div class="vol-item-lg">
+                <a href="/yuyin/periodical/[[periodical1.id]]" class="cover-wrapper cover-wrapper-lg">
+                    <img ng-src="[[periodical1.imagepath]]" class="cover-lg">
+                </a>
+
+                <a href="/yuyin/periodical/[[periodical1.id]]" class="title">vol.[[periodical1.id]]  [[periodical1.title]]</a>
+            </div>
+
+            <div class="vol-item">
+                <a href="/yuyin/periodical/[[periodical2.id]]" class="cover-wrapper">
+                    <img ng-src="[[periodical2.imagepath]]" class="cover">
+                </a>
+                <a class="title" href="/yuyin/periodical/[[periodical2.id]]">vol.[[periodical2.id]] [[periodical2.title]]</a>
+            </div>
+
+            <div class="vol-item">
+                <a href="/yuyin/periodical/[[periodical3.id]]" class="cover-wrapper">
+                    <img ng-src="[[periodical3.imagepath]]" class="cover">
+                </a>
+                <a class="title" href="/yuyin/periodical/[[periodical3.id]]">vol.[[periodical3.id]] [[periodical3.title]]</a>
+            </div>
+        </div>
+    </div>
+    <div class="section-m clearfix">
+        <div class="section-musician">
+            <div class="section-head clearfix">
+                <h3><span class="section-head-label"></span>原创推荐</h3>
+            </div>
+            <div class="section-ct">
+                <div class="clearfix">
+                    <img ng-src="[[single.singleimage]]" class="cover">
+                    <div class="title">
+                        <div class="align-fix">
+                            <div>
+                                <a href="/yuyin/single" class="single-name">[[single.musicname]]</a>
+                                <p class="artist">[[single.singer]]</p>
+                                <p class="pubdate">[[single.createtime]]</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="remark">
+                    <span class="quote-before"></span>
+                    <span>[[single.singlecontent]]</span>
+                    <span class="quote-after"></span>
+                </div>
+            </div>
+        </div>
+        <!-- /// section-musician end -->
+
+        <div class="section-essay">
+            <div class="section-head clearfix">
+                <div class="fright">
+                    <a href="/yuyin/single" class="tag">更多单曲</a>
+                    <a href="/yuyin/essay" class="tag">更多专栏</a>
+                    <!--<a href="" class="tag ln-more">更多<span class="icon-more"></span></a>-->
+                </div>
+            </div>
+            <div class="section-ct clearfix">
+
+                <div class="essay-item">
+                    <a href="/yuyin/essay/[[essay1.id]]" class="cover-wrapper">
+                        <img ng-src="[[essay1.imagepath]]" alt="[[essay1.title]]" class="cover">
+                    </a>
+                    <div class="meta">
+                        <p class="title"><a class="ln-title" href="/yuyin/essay/[[essay1.id]]" title="[[essay1.title]]">[[essay1.title]]</a></p>
+                        <p class="author"><a href="javascript:;" class="author">[[essay1.author]]</a></p>
+                    </div>
+                </div>
+
+                <div class="essay-item">
+                    <a href="/yuyin/essay/[[essay2.id]]" class="cover-wrapper">
+                        <img ng-src="[[essay2.imagepath]]" alt="[[essay2.title]]" class="cover">
+                    </a>
+                    <div class="meta">
+                        <p class="title">
+                            <a class="ln-title" href="/yuyin/essay/[[essay2.id]]" title="[[essay2.title]]">[[essay2.title]]</a>
+                        </p>
+                        <p class="author">
+                            <a href="javascript:;" class="author">[[essay2.author]]</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

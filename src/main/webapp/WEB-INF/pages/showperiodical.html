@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/yuyin/css/vol.css">
+    <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <link rel="stylesheet" href="/yuyin/css/stylesheets/style.css">
+    <script type="text/javascript " src="/yuyin/js/jquery.min.js"></script>
+    <script src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/js/jquery-ui-1.12.1.min.js"></script>
+    <script src="/yuyin/js/jquery.cookie.js"></script>
+    <script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <title>余音</title>
+    <style>
+    	.layui-layer-content{
+    		color:#000;
+    	}
+    </style>
+</head>
+<body>
+<div ng-app="pdetailApp" ng-controller="pdetailContro" ng-cloak>
+<div class="header">
+    <div class="header-ct">
+        <a href="/yuyin" class="nav" style="font-size: 18px">余音
+        </a>
+        <div class="nav">
+            <ul class="clearfix">
+                <li><a href="/yuyin/periodical">期刊</a></li>
+                <li><a href="/yuyin/single">单曲</a></li>
+                <li><a href="/yuyin/essay">专栏</a></li>
+            </ul>
+        </div>
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==1">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    	登录
+                </a>
+            </div>
+        </div>
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    <img ng-src="[[headImage]]" alt="" class="avatar">[[userName]]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container ct-sm">
+    <div class="vol-tags clearfix">
+        <a href="/yuyin/periodical" class="nav-back">
+            <i class="icon-back"></i>
+            返回期刊首页
+        </a>
+        <a href="javascript:;" target="_blank" class="vol-tag-item">#[[item.tag]]</a>
+    </div>
+    <h1 class="vol-name">
+        <span class="vol-number rounded">[[item.id]]</span>
+        <span class="vol-title">[[item.title]]</span>
+    </h1>
+    <div class="vol-cover-wrapper" id="volCoverWrapper">
+        <img ng-src="[[item.imagepath]]" alt="[[item.title]]" class="vol-cover">
+    </div>
+    <div class="vol-desc">
+        [[item.content]]
+    </div>
+    <div class="clearfix vol-meta">
+        <img src="https://avatars1.githubusercontent.com/u/18554575" alt="落在低处" class="author-avatar rounded">
+        <a class="vol-author" href="">hxiaope</a>
+        <span class="separator fleft">・</span>
+        <span class="vol-date">2017-03-16</span>
+        <a href="javascript:;" class="btn-action-like icon-fav" title="收藏" ng-click="collect(item.id)"></a>
+        <div id="player" style="background: #333333">
+            <div class="cover"></div>
+            <div class="ctrl">
+                <div class="tag"></div>
+                <div class="control">
+                    <div class="left">
+                        <div class="rewind icon"></div>
+                        <div class="playback icon"></div>
+                        <div class="fastforward icon"></div>
+                    </div>
+                    <div class="volume right">
+                        <div class="mute icon left"></div>
+                        <div class="slider left ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                            <div class="pace"></div>
+                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                        <div class="loaded"></div>
+                        <div class="pace"></div>
+                        <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style=""></a></div>
+                    <div class="timer left"></div>
+                    <div class="right">
+                        <div class="repeat icon"></div>
+                        <div class="shuffle icon"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul id="playlist" style="background: #333333">
+        </ul>
+    </div>
+    <div class="comment-wrapper" id="comment">
+        <h3 class="volcount">评论</h3>
+
+        <div class="comment-editor">
+            <div class="editor-wrapper">
+                    <div class="editor rounded">
+                        <textarea name="content" spellcheck="false" id="commentEditor" autocomplete="off"></textarea>
+                    </div>
+                    <div class="toolbar rounded clearfix">
+                        <button class="btn btn-positive" ng-click="comment()">发布</button>
+                    </div>
+                    <!-- <input type="hidden" name="app_id" value="1">
+                    <input type="hidden" name="res_id" value="982"> -->
+            </div>
+            <!-- editor-wrapper end-->
+        </div>
+    </div>
+    <div class="comment-list" id="commentList">
+        <a href="" class="avatar-wrapper" target="_blank">
+            <img src="https://avatars1.githubusercontent.com/u/18554575" alt="月落天涯" class="avatar rounded">
+        </a>
+        <div class="item-wrapper">
+            <div class="helper">
+                <a href="" class="username">hxiaope</a>
+            </div>
+            <div class="comment-ct">
+                <p class="the-comment">生活折磨着我们，我们就带上耳机自己找乐，自己跳，自己蹦，自己嗨到天外之外</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/yuyin/js/query/periodicalDetail.js"></script>
+</body>
+</html>
