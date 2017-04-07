@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by 郭旭辉 on 2016/3/16.
+ * Created by hxiaope on 2016/3/16.
  */
 public class MD5Utils {
     public static final String SALT = "eatammy";
