@@ -8,6 +8,7 @@
     <script type="text/javascript " src="/yuyin/js/jquery.min.js"></script>
     <script src="/yuyin/js/jquery-ui-1.12.1.min.js"></script>
     <script src="/yuyin/js/angular.min.js"></script>
+    <script src="/yuyin/js/jquery.cookie.js"></script>
     <script src="/yuyin/js/query/index.js"></script>
 </head>
 <body>
@@ -23,10 +24,17 @@
                 <li><a href="/yuyin/essay">专栏</a></li>
             </ul>
         </div>
-        <div class="logged-in-wrapper" style="display: block">
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==1">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account" ng-click="login()">
+                    登录/注册
+                </a>
+            </div>
+        </div>
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
             <div class="account-more">
                 <a href="javascript:;" class="ln-account">
-                    <img src="" alt="" class="avatar">hxiaope
+                    <img ng-src="[[headImage]]" alt="[[userName]]" class="avatar">[[userName]]
                 </a>
             </div>
         </div>
@@ -127,6 +135,31 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div id="loginContent" ng-show="loginshow">
+    <div class="dialog-passport">
+        <form class="form-ajax">
+            <div class="inline-input">
+                <span class="label">邮箱</span>
+                <input type="email" class="input-passport" name="email" required="" ng-model="email">
+            </div>
+            <div class="inline-input">
+                <span class="label">密码</span>
+                <input type="password" class="input-passport" name="password" required="" ng-model="password">
+            </div>
+            <div class="btn-wrapper">
+                <a href="javascript:;" class="btn btn-positive btn-login-submit" ng-click="signIn()">
+                    登录
+                </a>
+            </div>
+        </form>
+        <div class="dialog-head">
+            <a href="javascript:;" class="ln-reg btn-dialog-register" data-width="235">
+                注册
+            </a>
+            <span class="fright">没有账号？</span>
         </div>
     </div>
 </div>

@@ -198,6 +198,7 @@ querySingleApp.controller('querySingleContro',function($scope,$http){
         	if(res.code==1){
             	layer.alert("上传成功",{icon:1});
             	$scope.detail.musicpath=res.url;
+            	$scope.$apply();
         	}else if(res.code==2){
             	layer.alert("上传失败",{icon:5});
         	}else{
@@ -217,6 +218,7 @@ querySingleApp.controller('querySingleContro',function($scope,$http){
         	if(res.code==1){
             	layer.alert("上传成功",{icon:1});
             	$scope.detail.singleimage=res.url;
+                $scope.$apply();
         	}else if(res.code==2){
             	layer.alert("上传失败",{icon:5});
         	}else{

@@ -6,6 +6,9 @@ indexApp.config(function($interpolateProvider){
 });
 indexApp.controller('indexController',function($scope,$http){
 	var layer=layui.layer;
+    var userId=$.cookie("userId");
+    var userName=$.cookie("userName");
+    var headImage=$.cookie("headImage");
 	$scope.queryPeriodical =function(){
 		$.ajax({
 			type:'post',
@@ -54,10 +57,36 @@ indexApp.controller('indexController',function($scope,$http){
 			}
 		});
 	};
+	///登录弹窗
+	$scope.login=function(){
+		$scope.loginshow=true;
+		layer.open({
+            type: 1,
+			title:'登录',
+            offset: '100px',
+            content: $('#loginContent'),
+			cancel:function(){
+            	$scope.loginshow=false;
+            	$scope.$apply();
+			}
+		});
+	}
+	//登录按钮
+	$scope.signIn=function(){
+		layer.closeAll();
+	}
 	function init(){
 		$scope.queryPeriodical();
 		$scope.queryEssay();
 		$scope.querySingle();
+        if(userId==null||usesrId==undefined){
+            $scope.loginStatus=1;
+        }else{
+            $scope.loginStatus=2;
+            $scope.userName=userName;
+            $scope.headImage=headImage;
+            $scope.userId=userId;
+        }
 	}
 	init();
 });

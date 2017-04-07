@@ -43,10 +43,10 @@
     <div class="meta">
         <a href="javascript:;" class="title" id="[[item.id]]" ng-click="play(item.id)">
             [[item.musicname]]
-            <span class="icon-play" style="display: inline-block;" ng-show="playstatus==0&&playId==item.id" ng-click="play(item.id)"></span>
-            <span class="icon-pause" style="display: inline-block;" ng-show="playstatus==1&&playId==item.id" ng-click="play(item.id)"></span>
+            <span class="icon-play" style="display: inline-block;" ng-show="playstatus==0&&playId==item.id"></span>
+            <span class="icon-pause" style="display: inline-block;" ng-show="playstatus==1&&playId==item.id"></span>
         </a>
-        <audio id="audio[[item.id]]" ng-src="[[item.musicpath | trustSrc]]"></audio>
+
         <p class="performer">[[item.singer]]</p>
         <p class="remark">
             <span class="quote-before"></span>
@@ -59,6 +59,7 @@
             </a>
         </div>
     </div>
+    <audio id="audio[[item.id]]" ng-src="[[item.musicpath | trustSrc]]"></audio>
 </div>
 <div id="laypage"></div>
 </div>
@@ -129,25 +130,26 @@
 		    	}
 		    });
 		}
+
+
 		$scope.play=function(id){
             var key="#audio"+id;
+            $scope.playId=id;
             var music =$(key)[0];
             if(music.paused){
-                $scope.playstatus=0;
-                $scope.playId=id;
                 music.play();
                 $scope.playstatus=1;
             }else{
-                $scope.playstatus=0;
-                $scope.playId=id;
                 music.pause();
+                $scope.playstatus=0;
             }
         }
+
 		function init(){
 			$scope.pageRow=10;
 			$scope.pageNum=1;
 			$scope.query();
-			//$scope.playstatus=0;
+			$scope.playstatus=0;
 		}
 		init();
 	});
