@@ -1,15 +1,17 @@
 package com.yuyin.service.Implement;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.yuyin.common.pojo.CommonResult;
+import com.yuyin.common.util.IDUtils;
 import com.yuyin.mapper.UserMapper;
 import com.yuyin.pojo.User;
 import com.yuyin.pojo.UserExample;
 import com.yuyin.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 /**
  * 基本业务的实现类
  * @Title:LoginServiceImpl
@@ -35,6 +37,31 @@ public class BaseServiceImpl implements BaseService {
 		example.createCriteria().andEmailEqualTo(email);
 		List<User> list = userMapper.selectByExample(example);
 		return list;
+	}
+
+	@Override
+	public User insertUser(String email,String password,String nickname) throws Exception {
+		UserExample example = new UserExample();
+		example.createCriteria().andEmailEqualTo(email);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()>0){
+			return null;
+		}
+		try {
+			User user = new User();
+			user.setId(IDUtils.getId());
+			user.setEmail(email);
+			user.setNickname(nickname);
+			user.setPassword(password);
+			user.setHeadimage("http://192.168.2.129/images/headImage.jpg");
+			user.setRole(2l);
+			String data=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			user.setCreatedate(data);
+			userMapper.insert(user);
+			return user;
+		}catch (Exception e){
+			throw e;
+		}
 	}
 
 	@Override

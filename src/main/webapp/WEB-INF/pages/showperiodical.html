@@ -32,17 +32,20 @@
         </div>
         <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==1">
             <div class="account-more">
-                <a href="javascript:;" class="ln-account">
-                    	登录
+                <a href="javascript:;" class="ln-account" ng-click="login()">
+                    登录/注册
                 </a>
             </div>
         </div>
         <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
             <div class="account-more">
                 <a href="javascript:;" class="ln-account">
-                    <img ng-src="[[headImage]]" alt="" class="avatar">[[userName]]
+                    <img style="width: 16px;height: 16px" ng-src="[[headImage]]" alt="[[userName]]" class="avatar">&nbsp;&nbsp;[[userName]]
+
                 </a>
             </div>
+            &nbsp;&nbsp;
+            <a href="javascript:;" class="link-logout" ng-click="logout()"><span class="icon-logout"></span>退出</a>
         </div>
     </div>
 </div>
@@ -134,6 +137,60 @@
         </div>
     </div>
 </div>
+    <div id="loginContent" ng-show="loginshow">
+        <div class="dialog-passport">
+            <form class="form-ajax">
+                <div class="inline-input">
+                    <span class="label">邮箱</span>
+                    <input type="email" class="input-passport" name="email" required="" ng-model="email">
+                </div>
+                <div class="inline-input">
+                    <span class="label">密码</span>
+                    <input type="password" class="input-passport" name="password" required="" ng-model="password">
+                </div>
+                <div class="btn-wrapper">
+                    <a href="javascript:;" class="btn btn-positive btn-login-submit" ng-click="signIn()">
+                        登录
+                    </a>
+                </div>
+            </form>
+            <div class="dialog-head">
+                <a href="javascript:;" class="ln-reg btn-dialog-register" data-width="235" ng-click="signup()">
+                    注册
+                </a>
+                <span class="fright">没有账号？</span>
+            </div>
+        </div>
+    </div>
+    <div id="signupContent" ng-show="signupShow">
+        <div class="dialog-passport">
+            <form class="form-ajax">
+                <div class="inline-input">
+                    <span class="label">昵称</span>
+                    <input type="text" class="input-passport" name="nickname" required="" placeholder="14位以内中英文数字" ng-model="nickname">
+                </div>
+                <div class="inline-input">
+                    <span class="label">邮箱</span>
+                    <input type="email" class="input-passport" name="email" required="" placeholder="您的常用邮箱" ng-model="email">
+                </div>
+                <div class="inline-input">
+                    <span class="label">密码</span>
+                    <input type="password" class="input-passport" name="password" required="" placeholder="6-16个字符" ng-model="password">
+                </div>
+                <div class="btn-wrapper">
+                    <a href="javascript:;" class="btn btn-positive btn-login-submit" ng-click="register()">
+                        注册
+                    </a>
+                </div>
+            </form>
+            <div class="dialog-head">
+                <a href="javascript:;" class="ln-reg btn-dialog-register" data-width="235" ng-click="login()">
+                    返回登录
+                </a>
+                <span class="fright">已有账号？</span>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="/yuyin/js/query/periodicalDetail.js"></script>
 </body>

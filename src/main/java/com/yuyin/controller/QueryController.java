@@ -144,6 +144,13 @@ public class QueryController {
 		PageResult list = periodicalService.queryPerOneTable(pageNum, pageRow);
 		return list;
 	}
+
+	/**
+	 * 期刊详细数据展示
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value="/periodical/{id}",method={RequestMethod.POST})
 	public CommonResult queryPeriodicalId(@PathVariable Long id)throws Exception{
