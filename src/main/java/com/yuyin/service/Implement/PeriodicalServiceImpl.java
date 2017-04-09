@@ -1,19 +1,18 @@
 package com.yuyin.service.Implement;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yuyin.common.pojo.CommonResult;
 import com.yuyin.common.pojo.PageResult;
-import com.yuyin.common.util.IDUtils;
 import com.yuyin.mapper.PeriodicalMapper;
 import com.yuyin.pojo.Periodical;
 import com.yuyin.pojo.PeriodicalCustom;
+import com.yuyin.pojo.PeriodicalExample;
 import com.yuyin.service.PeriodicalService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 /**
  * 期刊业务实现类
  * @Title:PeriodicalServiceImpl
@@ -36,7 +35,8 @@ public class PeriodicalServiceImpl implements PeriodicalService {
 	public CommonResult insertPeriodical(Periodical periodical) throws Exception {
 		try{
 			Periodical record = new Periodical();
-			record.setId(IDUtils.getId());
+			PeriodicalExample record1=new PeriodicalExample();
+			//record.setId(IDUtils.getId());
 			record.setTitle(periodical.getTitle());
 			record.setImagepath(periodical.getImagepath());
 			record.setTag(periodical.getTag());
@@ -44,7 +44,12 @@ public class PeriodicalServiceImpl implements PeriodicalService {
 			record.setAuthor(periodical.getAuthor());
 			record.setContent(periodical.getContent());
 			periodicalMapper.insert(record);
-			return CommonResult.build(400, "success", record.getId());
+			record1.createCriteria().andTitleEqualTo(record.getTitle());
+			List<Periodical> list = periodicalMapper.selectByExample(record1);
+			if (list.size()==0){
+				return CommonResult.build(404, "error");
+			}
+			return CommonResult.build(400, "success", list.get(0).getId());
 		}catch(Exception e){
 			return CommonResult.build(200, "Exception");
 		}

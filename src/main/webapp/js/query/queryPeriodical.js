@@ -7,6 +7,11 @@ var queryPeriodicalApp=angular.module('queryPeriodicalApp',[]);
 queryPeriodicalApp.config(function($interpolateProvider){
 	$interpolateProvider.startSymbol('[[').endSymbol(']]');
 });
+queryPeriodicalApp.filter('trustHtml', function ($sce) {
+    return function (input) {
+        return $sce.trustAsHtml(input);
+    }
+});
 queryPeriodicalApp.controller('queryPeriodicalContro',function($scope,$http){
 	var layer=layui.layer,laypage=layui.laypage;
 	var pageNum;//当前页

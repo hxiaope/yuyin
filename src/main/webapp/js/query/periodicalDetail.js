@@ -3,6 +3,11 @@ var pdetailApp=angular.module('pdetailApp',[]);
 pdetailApp.config(function($interpolateProvider){
 	$interpolateProvider.startSymbol('[[').endSymbol(']]');
 });
+pdetailApp.filter('trustHtml', function ($sce) {
+    return function (input) {
+        return $sce.trustAsHtml(input);
+    }
+});
 pdetailApp.controller('pdetailContro',function($scope){
 	var playlist= new Array();
 	var layer=layui.layer;

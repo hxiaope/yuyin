@@ -64,8 +64,7 @@
     <div class="vol-cover-wrapper" id="volCoverWrapper">
         <img ng-src="[[item.imagepath]]" alt="[[item.title]]" class="vol-cover">
     </div>
-    <div class="vol-desc">
-        [[item.content]]
+    <div class="vol-desc" ng-bind-html="item.content | trustHtml">
     </div>
     <div class="clearfix vol-meta">
         <img src="https://avatars1.githubusercontent.com/u/18554575" alt="落在低处" class="author-avatar rounded">

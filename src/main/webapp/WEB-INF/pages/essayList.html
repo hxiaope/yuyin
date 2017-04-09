@@ -7,6 +7,7 @@
     <script type="text/javascript" src="/yuyin/js/jquery.min.js"></script>
     <script type="text/javascript" src="/yuyin/js/angular.min.js"></script>
     <script src="/yuyin/layui/lay/dest/layui.all.js"></script>
+    <script src="/yuyin/js/jquery.cookie.js"></script>
     <title>余音</title>
     <style>
     	#laypage{
@@ -16,6 +17,7 @@
     </style>
 </head>
 <body>
+<div ng-app="essayListApp" ng-controller="essayListContro" ng-cloak>
 <div class="header">
     <div class="header-ct">
         <a href="/yuyin" class="nav" style="font-size: 18px">余音
@@ -27,16 +29,26 @@
                 <li><a href="/yuyin/essay">专栏</a></li>
             </ul>
         </div>
-        <div class="logged-in-wrapper" style="display: block">
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==1">
             <div class="account-more">
-                <a href="javascript:;" class="ln-account">
-                    <img src="" alt="" class="avatar">hxiaope
+                <a href="javascript:;" class="ln-account" ng-click="login()">
+                    登录/注册
                 </a>
             </div>
         </div>
+        <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
+            <div class="account-more">
+                <a href="javascript:;" class="ln-account">
+                    <img style="width: 16px;height: 16px" ng-src="[[headImage]]" alt="[[userName]]" class="avatar">&nbsp;&nbsp;[[userName]]
+
+                </a>
+            </div>
+            &nbsp;&nbsp;
+            <a href="javascript:;" class="link-logout" ng-click="logout()"><span class="icon-logout"></span>退出</a>
+        </div>
     </div>
 </div>
-<div class="container" style="min-height: 200px;" ng-app="essayListApp" ng-controller="essayListContro" ng-cloak>
+<div class="container" style="min-height: 200px;">
     <div class="clearfix" style="position: relative;">
     <div class="article article-sm">
         <div class="essay-list">
@@ -63,6 +75,61 @@
     </div>
    </div>
 </div>
+    <div id="loginContent" ng-show="loginshow">
+        <div class="dialog-passport">
+            <form class="form-ajax">
+                <div class="inline-input">
+                    <span class="label">邮箱</span>
+                    <input type="email" class="input-passport" name="email" required="" ng-model="email">
+                </div>
+                <div class="inline-input">
+                    <span class="label">密码</span>
+                    <input type="password" class="input-passport" name="password" required="" ng-model="password">
+                </div>
+                <div class="btn-wrapper">
+                    <a href="javascript:;" class="btn btn-positive btn-login-submit" ng-click="signIn()">
+                        登录
+                    </a>
+                </div>
+            </form>
+            <div class="dialog-head">
+                <a href="javascript:;" class="ln-reg btn-dialog-register" data-width="235" ng-click="signup()">
+                    注册
+                </a>
+                <span class="fright">没有账号？</span>
+            </div>
+        </div>
+    </div>
+    <div id="signupContent" ng-show="signupShow">
+        <div class="dialog-passport">
+            <form class="form-ajax">
+                <div class="inline-input">
+                    <span class="label">昵称</span>
+                    <input type="text" class="input-passport" name="nickname" required="" placeholder="14位以内中英文数字" ng-model="nickname">
+                </div>
+                <div class="inline-input">
+                    <span class="label">邮箱</span>
+                    <input type="email" class="input-passport" name="email" required="" placeholder="您的常用邮箱" ng-model="email">
+                </div>
+                <div class="inline-input">
+                    <span class="label">密码</span>
+                    <input type="password" class="input-passport" name="password" required="" placeholder="6-16个字符" ng-model="password">
+                </div>
+                <div class="btn-wrapper">
+                    <a href="javascript:;" class="btn btn-positive btn-login-submit" ng-click="register()">
+                        注册
+                    </a>
+                </div>
+            </form>
+            <div class="dialog-head">
+                <a href="javascript:;" class="ln-reg btn-dialog-register" data-width="235" ng-click="login()">
+                    返回登录
+                </a>
+                <span class="fright">已有账号？</span>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 	var essayListApp=angular.module('essayListApp',[]);
 	essayListApp.config(function($interpolateProvider){
@@ -73,6 +140,114 @@
 		var laypage=layui.laypage;
 		var pageRow=10;
 		var pageNum=1;
+        var userId=$.cookie("userId");
+        var userName=$.cookie("userName");
+        var headImage=$.cookie("headImage");
+        ///登录弹窗
+        $scope.login=function(){
+            layer.closeAll();
+            $scope.signupShow=false;
+            $scope.loginshow=true;
+            layer.open({
+                type: 1,
+                title:'登录',
+                offset: '100px',
+                content: $('#loginContent'),
+                cancel:function(){
+                    $scope.loginshow=false;
+                    $scope.$apply();
+                }
+            });
+        }
+        //登录按钮
+        $scope.signIn=function(){
+            //
+            var param1=$scope.email;
+            var param2=$scope.password;
+            if(param1==undefined || param1==null||param2==undefined||param2==null){
+                layer.closeAll();
+                layer.alert("账户密码输入异常");
+                return ;
+            }
+            $.ajax({
+                type:'post',
+                url:'/yuyin/login',
+                data:{"email":param1,"password":param2},
+                success:function(res){
+                    if(res==200){
+                        layer.closeAll();
+                        location.reload();
+                    }else if(res==404){
+                        layer.alert("用户不存在");
+                    }
+                    else if(res==400){
+                        layer.alert("密码错误");
+                    }
+                },
+                error:function(){
+                    layer.alert("异常");
+                }
+            })
+        }
+        //退出按钮
+        $scope.logout=function(){
+            $.ajax({
+                type:'post',
+                url:'',
+                success:function(res){
+                    if(res=200){
+                        $.cookie("userId",null, { path: "/"})
+                        $.cookie("userName",null, { path: "/"})
+                        $.cookie("headImage",null, { path: "/"})
+                        location.reload();
+                    }
+                }
+            })
+        }
+        //注册弹窗
+        $scope.signup=function(){
+            layer.closeAll();
+            $scope.loginshow=false;
+            $scope.signupShow=true;
+            layer.open({
+                type: 1,
+                title:'注册',
+                offset: '100px',
+                content: $('#signupContent'),
+                cancel:function(){
+                    $scope.signupShow=false;
+                    $scope.$apply();
+                }
+            });
+        }
+        //注册按钮
+        $scope.register=function(){
+            var param1=$scope.email;
+            var param2=$scope.password;
+            var param3=$scope.nickname;
+            if(param1==undefined || param1==null||param2==undefined||param2==null||param3==undefined||param3==null){
+                layer.closeAll();
+                layer.alert("账户密码输入异常");
+                return ;
+            }
+            $.ajax({
+                type:'post',
+                url:'/yuyin/register',
+                data:{"email":param1,"password":param2,"nickname":param3},
+                success:function(res){
+                    if(res==200){
+                        layer.closeAll();
+                        location.reload();
+                    }
+                    else if(res==400){
+                        layer.alert("用户已存在");
+                    }
+                },
+                error:function(){
+                    layer.alert("异常");
+                }
+            })
+        }
 		$scope.query=function(){
 			var param1=$scope.pageNum;
 			var param2=$scope.pageRow;
@@ -82,7 +257,7 @@
 				data:{"pageNum":param1,"pageRow":param2},
 				success:function(res){
 					if(res.rows!=null){
-						console.log(res.rows);
+						//console.log(res.rows);
 						$scope.essayList=res.rows;
 						$scope.pageSize=res.pageSize;
 						$scope.pageNum=res.pageNum;
@@ -128,6 +303,14 @@
 			$scope.pageRow=10;
 			$scope.pageNum=1;
 			$scope.query();
+            if(userId==null||userId==undefined||userId=="null"){
+                $scope.loginStatus=1;
+            }else{
+                $scope.loginStatus=2;
+                $scope.userName=userName;
+                $scope.headImage=headImage;
+                $scope.userId=userId;
+            }
 		}
 		init();
 	});
