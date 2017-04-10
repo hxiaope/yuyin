@@ -15,12 +15,19 @@ import java.util.List;
 public interface BaseService {
 	//验证用户登录
 	public List<User> findByEmail(String email) throws Exception;
-	//注册
+
+	/**注册
+	 * @param email
+	 * @param password
+	 * @param nickname
+	 * @return
+	 * @throws Exception
+	 */
 	public User insertUser(String email,String password,String nickname) throws Exception;
 	//用户收藏
 	public CommonResult addcollect(Long userId,Long pId,Long eId,Long sId) throws Exception;
 	//用户评论
-	public CommonResult addcomment(Long userId,Long pId,Long eId) throws Exception;
+	public CommonResult addcomment(String userInfo,Long pId,Long eId,String content) throws Exception;
 	//查找期刊收藏
 	public CommonResult findPeriodicalCollect(Long userId) throws Exception;
 	//查找期刊收藏
@@ -28,7 +35,7 @@ public interface BaseService {
 	//查找期刊收藏
 	public CommonResult findSingelCollect(Long userId) throws Exception;
 	//查找文章评论
-	public CommonResult findEssayComment(Long userId) throws Exception;
+	public CommonResult findEssayComment(Long eId) throws Exception;
 	//查找期刊评论
-	public CommonResult findPeriodicalComment(Long userId) throws Exception;
+	public CommonResult findPeriodicalComment(Long pId) throws Exception;
 }

@@ -1,9 +1,9 @@
 package com.yuyin.mapper;
 
-import com.yuyin.pojo.Collect;
-import com.yuyin.pojo.CollectExample;
-import java.util.List;
+import com.yuyin.pojo.*;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CollectMapper {
     int countByExample(CollectExample example);
@@ -27,4 +27,16 @@ public interface CollectMapper {
     int updateByPrimaryKeySelective(Collect record);
 
     int updateByPrimaryKey(Collect record);
+
+    public List<CollectPeriodicalVo> queryPeriodicalCollect(@Param("userId")Long userId);
+
+    public List<CollectSingleVo> querySingleCollect(@Param("userId")Long userId);
+
+    public List<CollectEssayVo> queryEssayCollect(@Param("userId")Long userId);
+
+    Collect selectByPeriodicalId(@Param("userId")Long userId,@Param("pId")Long pId);
+
+    Collect selectBySingleId(@Param("userId")Long userId,@Param("sId")Long sId);
+
+    Collect selectByEssayId(@Param("userId")Long userId,@Param("eId")Long eId);
 }

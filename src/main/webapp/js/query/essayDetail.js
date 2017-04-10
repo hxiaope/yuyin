@@ -38,7 +38,33 @@ essayDetailApp.controller('essayDetailContro',function($http,$scope){
         });
     }
     //评论初始化
-    $scope.commentList=function(){
+    $scope.commentquery=function(){
+        var essayId=$scope.item.id;
+        //console.log(essayId);
+        var list=new Array();
+        $.ajax({
+            type:'post',
+            url:'/yuyin/comment/essay',
+            data:{"eId":essayId},
+            success:function(res){
+                //console.log(res.data);
+                if(res.data!=null){
+                    for(var i=0;i<res.data.length;i++){
+                        list[i]={
+                            content:res.data[i].content,
+                            createtime:res.data[i].createtime,
+                            userInfo:JSON.parse(res.data[i].formUser)
+                        }
+                    }
+                    //console.log(list);
+                    $scope.commentList =list;
+                    $scope.$apply();
+                }
+            },
+            error:function(res){
+                layer.alert("Exception");
+            }
+        })
 
     }
     //收藏
@@ -47,12 +73,34 @@ essayDetailApp.controller('essayDetailContro',function($http,$scope){
             $scope.login();
             return;
         }
+        $.ajax({
+            type:'post',
+            url:'/yuyin/insert/collect',
+            data:{"userId":userId,"eId":id},
+            success:function(res){
+                if(res.status==200){
+                    layer.alert("收藏成功");
+                }else if(res.status==401){
+                    layer.alert("收藏已存在");
+                }else{
+                    layer.alert("error");
+                }
+            },
+            error:function(res){
+                layer.alert("error");
+            }
+        });
     }
     //评论
-    $scope.comment=function(){
+    $scope.comment=function(id){
         //参数:用户id,期刊Id,评论内容
         var content=$('#commentEditor').val();
-        //console.log(content);
+        var user={
+            userId:userId,
+            userName:userName,
+            headImage:headImage
+        }
+        var userInfo=JSON.stringify(user);
         if(userId==null||userId==undefined||userId=="null"){
             $scope.login();
             return;
@@ -61,6 +109,20 @@ essayDetailApp.controller('essayDetailContro',function($http,$scope){
             layer.msg("请输入内容");
             return;
         }
+        $.ajax({
+            type:'post',
+            url:'/yuyin/user/comment',
+            data:{"userInfo":userInfo,"eId":id,"content":content},
+            success:function(res){
+                //console.log(res.status);
+                if(res.status==200){
+                    $scope.commentquery();
+                    $('#commentEditor').val('');}
+                else
+                    layer.alert("error")
+            },
+            error:function(res){}
+        });
     }
     ///登录弹窗
     $scope.login=function(){
@@ -112,7 +174,7 @@ essayDetailApp.controller('essayDetailContro',function($http,$scope){
     $scope.logout=function(){
         $.ajax({
             type:'post',
-            url:'',
+            url:'/yuyin/logout',
             success:function(res){
                 if(res=200){
                     $.cookie("userId",null, { path: "/"})
@@ -180,7 +242,7 @@ essayDetailApp.controller('essayDetailContro',function($http,$scope){
     }
     function init(){
         $scope.query();
-        $scope.commentList();
+        $scope.commentquery();
         if(userId==null||userId==undefined||userId=="null"){
             $scope.loginStatus=1;
         }else{

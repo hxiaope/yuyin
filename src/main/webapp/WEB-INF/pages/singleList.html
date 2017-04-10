@@ -38,7 +38,7 @@
         </div>
         <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
             <div class="account-more">
-                <a href="javascript:;" class="ln-account">
+                <a href="/yuyin/user/[[userId]]" class="ln-account">
                     <img style="width: 16px;height: 16px" ng-src="[[headImage]]" alt="[[userName]]" class="avatar">&nbsp;&nbsp;[[userName]]
 
                 </a>
@@ -153,6 +153,23 @@
                 $scope.login();
                 return;
             }
+            $.ajax({
+                type:'post',
+                url:'/yuyin/insert/collect',
+                data:{"userId":userId,"sId":id},
+                success:function(res){
+                    if(res.status==200){
+                        layer.alert("收藏成功");
+                    }else if(res.status==401){
+                        layer.alert("收藏已存在");
+                    }else{
+                        layer.alert("error");
+                    }
+                },
+                error:function(res){
+                    layer.alert("error");
+                }
+            })
         }
         ///登录弹窗
         $scope.login=function(){
@@ -204,7 +221,7 @@
         $scope.logout=function(){
             $.ajax({
                 type:'post',
-                url:'',
+                url:'/yuyin/logout',
                 success:function(res){
                     if(res=200){
                         $.cookie("userId",null, { path: "/"})

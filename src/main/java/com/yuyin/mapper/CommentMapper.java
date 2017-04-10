@@ -2,8 +2,9 @@ package com.yuyin.mapper;
 
 import com.yuyin.pojo.Comment;
 import com.yuyin.pojo.CommentExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CommentMapper {
     int countByExample(CommentExample example);
@@ -33,4 +34,8 @@ public interface CommentMapper {
     int updateByPrimaryKeyWithBLOBs(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    List<Comment> queryByPeriodicalId(@Param("pId")Long pId);
+
+    List<Comment> queryByEssayId(@Param("eId")Long pId);
 }

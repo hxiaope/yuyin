@@ -1,10 +1,10 @@
 package com.yuyin.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用来打开页面的集中Controller
@@ -79,5 +79,9 @@ public class showPageController extends BaseController{
 	@RequestMapping(value="/single",method={RequestMethod.GET})
 	public String showSingle(HttpServletRequest request){
 		return getViewPath()+"singleList";
+	}
+	@RequestMapping(value="/user/{id}",method={RequestMethod.GET})
+	public String showUserMain(HttpServletRequest request){
+		return getViewPath()+"userMain";
 	}
 }

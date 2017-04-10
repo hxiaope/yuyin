@@ -38,7 +38,7 @@
         </div>
         <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
             <div class="account-more">
-                <a href="javascript:;" class="ln-account">
+                <a href="/yuyin/user/[[userId]]" class="ln-account">
                     <img style="width: 16px;height: 16px" ng-src="[[headImage]]" alt="[[userName]]" class="avatar">&nbsp;&nbsp;[[userName]]
 
                 </a>
@@ -193,7 +193,7 @@
         $scope.logout=function(){
             $.ajax({
                 type:'post',
-                url:'',
+                url:'/yuyin/logout',
                 success:function(res){
                     if(res=200){
                         $.cookie("userId",null, { path: "/"})

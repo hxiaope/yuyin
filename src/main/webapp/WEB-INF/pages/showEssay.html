@@ -38,7 +38,7 @@
         </div>
         <div class="logged-in-wrapper" style="display: block" ng-show="loginStatus==2">
             <div class="account-more">
-                <a href="javascript:;" class="ln-account">
+                <a href="/yuyin/user/[[userId]]" class="ln-account">
                     <img style="width: 16px;height: 16px" ng-src="[[headImage]]" alt="[[userName]]" class="avatar">&nbsp;&nbsp;[[userName]]
 
                 </a>
@@ -56,6 +56,7 @@
         </a>
     </nav>
     <div class="essay-detail-wrapper">
+        <input type="hidden" id="eId" ng-model="item.id">
         <h1 class="essay-title">[[item.title]]</h1>
         <p class="essay-meta"><span>[[item.author]]</span>・[[item.createtime]]</p>
         <div class="essay-music">
@@ -123,7 +124,7 @@
                         <textarea name="content" spellcheck="false" id="commentEditor" autocomplete="off"></textarea>
                     </div>
                     <div class="toolbar rounded clearfix">
-                        <button class="btn btn-positive" ng-click="comment()">发布</button>
+                        <button class="btn btn-positive" ng-click="comment(item.id)">发布</button>
                     </div>
                   <!--  <input type="hidden" name="app_id" value="1">
                     <input type="hidden" name="res_id" value="982">-->
@@ -132,15 +133,18 @@
         </div>
     </div>
     <div class="comment-list" id="commentList">
-        <a href="" class="avatar-wrapper" target="_blank">
-            <img src="https://avatars1.githubusercontent.com/u/18554575" alt="月落天涯" class="avatar rounded">
-        </a>
-        <div class="item-wrapper">
-            <div class="helper">
-                <a href="" class="username">hxiaope</a>
-            </div>
-            <div class="comment-ct">
-                <p class="the-comment">生活折磨着我们，我们就带上耳机自己找乐，自己跳，自己蹦，自己嗨到天外之外</p>
+        <div ng-repeat="commentItem in commentList">
+            <a href="javascript:;" class="avatar-wrapper">
+                <img ng-src="[[commentItem.userInfo.headImage]]" alt="[[commentItem.userInfo.userName]]" class="avatar rounded">
+            </a>
+            <div class="item-wrapper">
+                <div class="helper">
+                    <a href="" class="username">[[commentItem.userInfo.userName]]</a>
+                </div>
+                <div class="comment-ct">
+                    <p class="the-comment">[[commentItem.content]]</p>
+                </div>
+                <div class="helper clearfix">[[commentItem.createtime]]</div>
             </div>
         </div>
     </div>

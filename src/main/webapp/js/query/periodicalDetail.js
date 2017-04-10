@@ -43,12 +43,34 @@ pdetailApp.controller('pdetailContro',function($scope){
             $scope.login();
             return;
 		}
+		$.ajax({
+			type:'post',
+			url:'/yuyin/insert/collect',
+			data:{"userId":userId,"pId":periodicalId},
+			success:function(res){
+				if(res.status==200){
+				 layer.alert("收藏成功");
+				 }else if(res.status==401){
+				 layer.alert("收藏已存在");
+				 }else{
+				 layer.alert("error");
+				 }
+			},
+			error:function(res){
+				layer.alert("error");
+			}
+		})
 	}
 	//评论
-	$scope.comment=function(){
+	$scope.comment=function(periodicalId){
 		//参数:用户id,期刊Id,评论内容
 		var content=$('#commentEditor').val();
-		//console.log(content);
+		var user={
+			userId:userId,
+			userName:userName,
+			headImage:headImage
+		}
+		var userInfo=JSON.stringify(user);
         if(userId==null||userId==undefined||userId=="null"){
             $scope.login();
             return;
@@ -57,17 +79,49 @@ pdetailApp.controller('pdetailContro',function($scope){
         	layer.msg("请输入内容");
             return;
 		}
-//		$.ajax({
-//			type:'post',
-//			url:'',
-//			data:{},
-//			success:function(res){},
-//			error:function(res){}
-//		});
+		$.ajax({
+			type:'post',
+			url:'/yuyin/user/comment',
+			data:{"userInfo":userInfo,"pId":periodicalId,"content":content},
+			success:function(res){
+				//console.log(res.status);
+				if(res.status==200){
+                    $scope.commentquery();
+					$('#commentEditor').val('');}
+				else
+					layer.alert("error")
+			},
+			error:function(res){}
+		});
 	}
 	//评论列表
 	$scope.commentquery=function(){
-		
+		var periodicalId=$scope.item.id;
+		var list=new Array();
+		//console.log(periodicalId);
+		$.ajax({
+			type:'post',
+			url:'/yuyin/comment/periodical',
+			data:{"pId":periodicalId},
+			success:function(res){
+				//console.log(res.data);
+				if(res.data!=null){
+					for(var i=0;i<res.data.length;i++){
+						list[i]={
+							content:res.data[i].content,
+                            createtime:res.data[i].createtime,
+							userInfo:JSON.parse(res.data[i].formUser)
+						}
+					}
+					//console.log(list);
+					$scope.commentList =list;
+					$scope.$apply();
+				}
+			},
+			error:function(res){
+				layer.alert("Exception");
+			}
+		})
 	}
     ///登录弹窗
     $scope.login=function(){
@@ -119,7 +173,7 @@ pdetailApp.controller('pdetailContro',function($scope){
     $scope.logout=function(){
         $.ajax({
             type:'post',
-            url:'',
+            url:'/yuyin/logout',
             success:function(res){
                 if(res=200){
                     $.cookie("userId",null, { path: "/"})

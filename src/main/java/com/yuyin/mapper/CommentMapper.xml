@@ -187,6 +187,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="queryByPeriodicalId" resultMap="ResultMapWithBLOBs">
+    select * from comment where comment.periodical_id=#{pId} order by comment.createtime desc
+  </select>
+  <select id="queryByEssayId" resultMap="ResultMapWithBLOBs">
+    select * from comment where comment.essays_id=#{eId} order by comment.createtime desc
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update comment
     <set >

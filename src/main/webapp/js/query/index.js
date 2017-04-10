@@ -104,7 +104,7 @@ indexApp.controller('indexController',function($scope,$http){
 	$scope.logout=function(){
 		$.ajax({
 			type:'post',
-			url:'',
+			url:'/yuyin/logout',
 			success:function(res){
 				if(res=200){
                     $.cookie("userId",null, { path: "/"})

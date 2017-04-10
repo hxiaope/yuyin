@@ -148,6 +148,30 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="queryPeriodicalCollect" resultType="com.yuyin.pojo.CollectPeriodicalVo">
+      select collect.id as id,periodical.id as periodicalId,periodical.title,periodical.author,
+      periodical.content,periodical.createtime,periodical.imagepath,periodical.tag
+      from collect LEFT JOIN periodical ON collect.periodical_id=periodical.id where collect.user_id=#{userId}
+  </select>
+  <select id="querySingleCollect" resultType="com.yuyin.pojo.CollectSingleVo">
+      select collect.id as id,single.id as singleId,single.singlecontent,
+      single.singleauthor,single.createtime,singleimage
+      from collect LEFT JOIN single ON collect.single_id=single.id where collect.user_id=#{userId}
+  </select>
+  <select id="queryEssayCollect" resultType="com.yuyin.pojo.CollectEssayVo">
+      select collect.id as id,essays.id as essayId,essays.title,essays.imagepath,
+      essays.content,essays.author,essays.createtime,essays.subscribe
+      from collect LEFT JOIN essays on collect.essays_id=essays.id where collect.user_id=#{userId}
+  </select>
+  <select id="selectByPeriodicalId" resultType="com.yuyin.pojo.Collect">
+    SELECT * from collect WHERE collect.periodical_id=#{pId} and collect.user_id=#{userId}
+  </select>
+  <select id="selectBySingleId" resultType="com.yuyin.pojo.Collect">
+    SELECT * from collect WHERE collect.single_id=#{sId} and collect.user_id=#{userId}
+  </select>
+  <select id="selectByEssayId" resultType="com.yuyin.pojo.Collect">
+    SELECT * from collect WHERE collect.essays_id=#{eId} and collect.user_id=#{userId}
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update collect
     <set >
