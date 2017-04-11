@@ -73,13 +73,16 @@ public class LoginController{
 			return "404";//用户不存在
 		}
 		String ps= MD5Utils.getMD5(password);
-		if (list.get(0).getPassword().equals(ps)&&list.get(0).getRole()==1) {
-			session.setAttribute("id", list.get(0).getId());
-			session.setAttribute("email", list.get(0).getEmail());
-			CookieUtils.setCookie(request, response, "userId", list.get(0).getId().toString(),-1,true);
-			CookieUtils.setCookie(request, response, "userName", list.get(0).getNickname(),-1,true);
-			CookieUtils.setCookie(request, response, "headImage", list.get(0).getHeadimage(),-1,true);
-			return "200";//成功登录
+		if (list.get(0).getPassword().equals(ps)) {
+			if(list.get(0).getRole()==1){
+				session.setAttribute("id", list.get(0).getId());
+				session.setAttribute("email", list.get(0).getEmail());
+				CookieUtils.setCookie(request, response, "userId", list.get(0).getId().toString(),-1,true);
+				CookieUtils.setCookie(request, response, "userName", list.get(0).getNickname(),-1,true);
+				CookieUtils.setCookie(request, response, "headImage", list.get(0).getHeadimage(),-1,true);
+				return "200";//成功登录
+			}
+			return "201";
 		} else {
 			return "400";//密码错误
 		}

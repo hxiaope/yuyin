@@ -1,23 +1,15 @@
 package com.yuyin.controller;
 
-import java.util.List;
-
+import com.yuyin.common.pojo.CommonResult;
+import com.yuyin.pojo.*;
+import com.yuyin.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yuyin.common.pojo.CommonResult;
-import com.yuyin.pojo.EssayVo;
-import com.yuyin.pojo.Mark;
-import com.yuyin.pojo.Music;
-import com.yuyin.pojo.SingleVo;
-import com.yuyin.service.EssayService;
-import com.yuyin.service.MusicService;
-import com.yuyin.service.PeriodicalService;
-import com.yuyin.service.SingleService;
-import com.yuyin.service.TagManagerService;
+import java.util.List;
 
 /**
  * 修改和删除的Controller
@@ -39,6 +31,9 @@ public class UpdateAndDeleController {
 	private EssayService essayService;
 	@Autowired
 	private PeriodicalService periodicalService;
+	@Autowired
+	private BaseService baseService;
+
 
 	/* 删除标签
 	 * @param id
@@ -130,6 +125,14 @@ public class UpdateAndDeleController {
 	public CommonResult updateEssay(EssayVo vo) throws Exception{
 		System.out.println(vo.toString());
 		CommonResult result = essayService.updateEssay(vo);
+		return result;
+	}
+
+	@ResponseBody
+	@RequestMapping("/user/update")
+	public CommonResult updateUser(User user) throws Exception{
+		System.out.println(user.toString());
+		CommonResult result = baseService.updateUser(user);
 		return result;
 	}
 }

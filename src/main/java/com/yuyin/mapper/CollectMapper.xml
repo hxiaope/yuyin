@@ -99,6 +99,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteCollect">
+    DELETE from collect WHERE collect.user_id=#{userId}
+    <if test="eId!=null"> and collect.essays_id=#{eId}</if>
+    <if test="pId!=null"> and collect.periodical_id=#{pId}</if>
+    <if test="sId!=null"> and collect.single_id=#{sId}</if>
+  </delete>
   <insert id="insert" parameterType="com.yuyin.pojo.Collect" >
     insert into collect (id, periodical_id, essays_id, 
       single_id, user_id)
@@ -151,17 +157,19 @@
   <select id="queryPeriodicalCollect" resultType="com.yuyin.pojo.CollectPeriodicalVo">
       select collect.id as id,periodical.id as periodicalId,periodical.title,periodical.author,
       periodical.content,periodical.createtime,periodical.imagepath,periodical.tag
-      from collect LEFT JOIN periodical ON collect.periodical_id=periodical.id where collect.user_id=#{userId}
+      from collect LEFT JOIN periodical ON collect.periodical_id=periodical.id where collect.periodical_id !='' and collect.user_id=#{userId}
   </select>
   <select id="querySingleCollect" resultType="com.yuyin.pojo.CollectSingleVo">
-      select collect.id as id,single.id as singleId,single.singlecontent,
-      single.singleauthor,single.createtime,singleimage
-      from collect LEFT JOIN single ON collect.single_id=single.id where collect.user_id=#{userId}
+      select scollect.single_id as singleId,scollect.music_id as musicId,music.musicname,music.singer from
+      (select collect.id as id,single.id as single_id,single.music_id
+      from collect LEFT JOIN single ON collect.single_id=single.id
+			where collect.single_id !='' and collect.user_id=${userId}) scollect
+      LEFT JOIN music ON scollect.music_id=music.id
   </select>
   <select id="queryEssayCollect" resultType="com.yuyin.pojo.CollectEssayVo">
       select collect.id as id,essays.id as essayId,essays.title,essays.imagepath,
       essays.content,essays.author,essays.createtime,essays.subscribe
-      from collect LEFT JOIN essays on collect.essays_id=essays.id where collect.user_id=#{userId}
+      from collect LEFT JOIN essays on collect.essays_id=essays.id where collect.essays_id !='' and collect.user_id=#{userId}
   </select>
   <select id="selectByPeriodicalId" resultType="com.yuyin.pojo.Collect">
     SELECT * from collect WHERE collect.periodical_id=#{pId} and collect.user_id=#{userId}

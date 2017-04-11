@@ -39,4 +39,6 @@ public interface CollectMapper {
     Collect selectBySingleId(@Param("userId")Long userId,@Param("sId")Long sId);
 
     Collect selectByEssayId(@Param("userId")Long userId,@Param("eId")Long eId);
+
+    int deleteCollect(@Param("userId")Long userId,@Param("pId")Long pId,@Param("sId")Long sId,@Param("eId")Long eId);
 }

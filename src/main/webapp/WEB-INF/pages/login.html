@@ -56,22 +56,24 @@
         layui.use(['jquery','layer','form'], function(){
         	var $=layui.jquery,layer=layui.layer,form = layui.form();
             form.verify({
-                pass: [/(.+){6,12}$/, '密码必须6到12位']
+                pass: [/(.+){3,12}$/, '密码必须3到12位']
             });
              form.on('submit(formDemo)', function(data){
                 //alert(data.field.password+data.field.email);
                 $.ajax({
-                    url:'/yuyin/login',
+                    url:'/yuyin/loginAdmin',
                     type:'post',
                     data:{'email':data.field.email,'password':data.field.password},
                     dataType:'json',
                     success:function(el){
                         //alert(el);
-                        if(el==200){
+                        if(el==404){
                         	layer.alert('用户不存在', {icon: 5});
                         }
-                        else if(el==201){
+                        else if(el==400){
                         	layer.alert('密码错误', {icon: 5});
+                        }else if(el==201){
+                            layer.alert('身份错误', {icon: 5});
                         }
                         else{
                         	layer.alert('登录成功', {icon: 6},function(){

@@ -38,4 +38,8 @@ public interface BaseService {
 	public CommonResult findEssayComment(Long eId) throws Exception;
 	//查找期刊评论
 	public CommonResult findPeriodicalComment(Long pId) throws Exception;
+	//删除收藏
+	public CommonResult deleteCollect(Long userId,Long pId,Long sId,Long eId) throws Exception;
+	//更新用户信息
+	public CommonResult updateUser(User user) throws Exception;
 }

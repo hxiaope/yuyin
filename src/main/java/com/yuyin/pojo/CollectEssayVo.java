@@ -9,7 +9,7 @@ package com.yuyin.pojo;
 public class CollectEssayVo {
     private Long id;
 
-    private Long essaysId;
+    private Long essayId;
 
     private String title;
 
@@ -31,12 +31,12 @@ public class CollectEssayVo {
         this.id = id;
     }
 
-    public Long getEssaysId() {
-        return essaysId;
+    public Long getEssayId() {
+        return essayId;
     }
 
-    public void setEssaysId(Long essaysId) {
-        this.essaysId = essaysId;
+    public void setEssayId(Long essayId) {
+        this.essayId = essayId;
     }
 
     public String getTitle() {

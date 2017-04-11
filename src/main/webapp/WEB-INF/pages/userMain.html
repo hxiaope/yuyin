@@ -47,7 +47,6 @@
             <div class="avatar-wrapper" id="avatarEditWrapper">
                 <img ng-src="[[headImage]]" alt="[[userName]]" class="avatar" style="width: 102px;height: 102px">
             </div>
-            <a href="javascript:;" class="ln-edit-avatar">修改头像</a>
             <div class="uinfo">
                 <div class="clearfix">
                     <h1 class="uname">[[userName]]</h1>
@@ -55,42 +54,41 @@
             </div>
             <div class="sign">
                 <div style="display: block;" id="textMood">
-                    <a class="ln-edit-mood" href="javascript:;">修改头像</a>
-                    <a class="ln-edit-mood" href="javascript:;">修改资料</a>
+                    <a class="ln-edit-mood" href="javascript:;" ng-click="mdfUserInfo()">修改资料</a>
                 </div>
             </div>
             <div class="ainfo"></div>
         </div>
         <div class="uc-nav rounded clearfix">
-            <a href="javascript:;" class="nav-item actived">音乐</a>
-            <a href="javascript:;" class="nav-item">期刊</a>
-            <a href="javascript:;" class="nav-item">文章</a>
+            <a href="javascript:;" id="single" class="nav-item actived" ng-click="singleCollect()">音乐</a>
+            <a href="javascript:;" id="periodical" class="nav-item" ng-click="periodicalCollect()">期刊</a>
+            <a href="javascript:;" id="essay" class="nav-item"ng-click="essayCollect()">文章</a>
         </div>
         <div class="uc-ct">
-            <div class="fav-singles">
+            <div class="fav-singles" ng-show="showSelect==1">
                 <ul>
-                    <li class="track-item rounded">
+                    <li class="track-item" ng-repeat="single in singleList">
                         <div class="track-wrapper clearfix">
-                            <a href="javascript:;" rel="nofollow" class="trackname btn-play">骑士王の夸り</a>
-                            <span class="artist btn-play">川井憲次</span>
+                            <a href="javascript:;" rel="nofollow" class="trackname btn-play">[[single.musicname]]</a>
+                            <span class="artist btn-play">[[single.singer]]</span>
                             <a href="javascript:;" class="icon-info" style="visibility: visible;"></a>
-                            <a href="javascript:;" class="btn-action-like icon-trash" style="visibility: visible;"></a>
+                            <a href="javascript:;" class="btn-action-like icon-trash" style="visibility: visible;" ng-click="delScollect(single.singleId)"></a>
                         </div>
                     </li>
                     <div id="laypage1"></div>
                 </ul>
             </div>
-            <div class="fav-vols">
+            <div class="fav-vols" ng-show="showSelect==2">
                 <div class="item-wrapper">
-                    <div class="item">
-                        <a href="http://www.luoo.net/music/874" class="cover-wrapper">
-                            <img src="http://img-cdn.luoo.net/pics/vol/583b045d826cb.jpg?imageView2/1/w/640/h/452" alt="心如少年" class="cover rounded">
+                    <div class="item" ng-repeat="periodical in periodicalList">
+                        <a href="/yuyin/periodical/[[periodical.periodicalId]]" class="cover-wrapper">
+                            <img ng-src="[[periodical.imagepath]]" alt="[[periodical.title]]" class="cover rounded">
                         </a>
-                        <a href="http://www.luoo.net/music/874" class="name">心如少年</a>
+                        <a href="/yuyin/periodical/[[periodical.periodicalId]]" class="name">[[periodical.title]]</a>
                         <div class="op-bar">
-                            <span class="time">2016-12-05</span>
+                            <span class="time">[[periodical.createtime]]</span>
 
-                            <a href="javascript:;" rel="nofollow" class="btn-action-like unfav" data-id="911" data-type="vol" data-cback="vol_unlike_cback" data-confirm="确定取消收藏该期刊吗？">
+                            <a href="javascript:;" class="btn-action-like unfav" ng-click="delPcollect(periodical.periodicalId)">
                                 <i class="icon icon-trash"></i>
                                 删除
                             </a>
@@ -99,21 +97,20 @@
                     <div id="laypage2"></div>
                 </div>
             </div>
-            <div class="fav-essays">
-                <div class="item">
+            <div class="fav-essays" ng-show="showSelect==3">
+                <div class="item" ng-repeat="essay in essayList">
                     <div class="clearfix">
-                        <a href="http://www.luoo.net/essay/800" class="cover-wrapper">
-                            <img src="http://img-cdn.luoo.net//library/201612/FqvFa8bfTllneHWZWAxI_qrw6GJS.jpg" alt="吉姆·莫里森：点燃火焰 推开大门" class="cover">
+                        <a href="/yuyin/essay/[[essay.essayId]]" class="cover-wrapper">
+                            <img ng-src="[[essay.imagepath]]" alt="[[essay.title]]" class="cover">
                         </a>
                         <div class="item-ct">
-                            <a href="http://www.luoo.net/essay/800" class="title">吉姆·莫里森：点燃火焰 推开大门</a>
-                            <p class="subscribe">幻觉中的蜥蜴之王堕入地狱。感知里的远行诗人升上天堂。</p>
+                            <a href="http://www.luoo.net/essay/800" class="title">[[essay.author]]：[[essay.title]]</a>
+                            <p class="subscribe">[[essay.subscribe]]</p>
                         </div>
                     </div>
                     <div class="clearfix">
                         <span class="time">2016-12-05 / 14:26:13</span>
-
-                        <a href="javascript:;" rel="nofollow" class="unfav btn-action-like btn-unfav" data-id="800" data-type="essay" data-cback="vol_unlike_cback" data-confirm="确定取消收藏该文章吗？">
+                        <a href="javascript:;" class="unfav btn-action-like btn-unfav" ng-click="delEcollect(essay.essayId)">
                             <i class="icon icon-trash"></i>
                         </a>
                     </div>
@@ -122,6 +119,61 @@
             </div>
         </div>
     </div>
+    <form class="layui-form" ng-show="showsure" id="showForm">
+        <input type="hidden" name="id" value="[[userId]]"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户昵称</label>
+            <div class="layui-input-block">
+                <input type="text" style="width:200px;height: 38px" ng-model="userName" name="nickname" required  lay-verify="required" placeholder="输入昵称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码</label>
+            <div class="layui-input-block">
+                <input type="password" style="width:200px;height: 38px" id="password1" required  lay-verify="required" placeholder="输入新密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认新密码</label>
+            <div class="layui-input-block">
+                <input type="password" style="width:200px;height: 38px" id="password" name="password" required  lay-verify="required" placeholder="重新输入新密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">头像图片</label>
+            <div class="layui-inline">
+                <input type="text" name="headimage" ng-model="headImage" class="layui-input" style="width:200px;height: 38px"/>
+            </div>
+            <div class="layui-inline">
+                <input type="file" name="picFile" class="layui-upload-file" id="headupload"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="男" checked=""/>
+                <input type="radio" name="sex" value="2" title="女"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生日</label>
+            <div class="layui-input-block">
+                <input name="birthday" placeholder="选择时间" class="layui-input" onclick="layui.laydate({elem: this,festival:true})" style="width:100px;height: 38px" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input name="adderss" placeholder="地址" class="layui-input" style="width:200px;height: 38px" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="userForm">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
 </div>
 <script src="/yuyin/js/query/user.js"></script>
 </body>

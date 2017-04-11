@@ -11,7 +11,13 @@ public class CollectSingleVo {
 
     private Long singleId;
 
+    private Long musicId;
+
     private String singleauthor;
+
+    private String musicname;
+
+    private String singer;
 
     private String createtime;
 
@@ -35,12 +41,36 @@ public class CollectSingleVo {
         this.singleId = singleId;
     }
 
+    public Long getMusicId() {
+        return musicId;
+    }
+
+    public void setMusicId(Long musicId) {
+        this.musicId = musicId;
+    }
+
     public String getSingleauthor() {
         return singleauthor;
     }
 
     public void setSingleauthor(String singleauthor) {
         this.singleauthor = singleauthor;
+    }
+
+    public String getMusicname() {
+        return musicname;
+    }
+
+    public void setMusicname(String musicname) {
+        this.musicname = musicname;
+    }
+
+    public String getSinger() {
+        return singer;
+    }
+
+    public void setSinger(String singer) {
+        this.singer = singer;
     }
 
     public String getCreatetime() {

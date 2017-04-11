@@ -2,6 +2,7 @@ package com.yuyin.service.Implement;
 
 import com.yuyin.common.pojo.CommonResult;
 import com.yuyin.common.util.IDUtils;
+import com.yuyin.common.util.MD5Utils;
 import com.yuyin.mapper.CollectMapper;
 import com.yuyin.mapper.CommentMapper;
 import com.yuyin.mapper.UserMapper;
@@ -212,4 +213,39 @@ public class BaseServiceImpl implements BaseService {
 			return CommonResult.build(400,"error");
 		}
 	}
+
+	@Override
+	public CommonResult deleteCollect(Long userId, Long pId, Long sId, Long eId) throws Exception {
+		if(userId!=null){
+			if(pId!=null||sId!=null||eId!=null) {
+				collectMapper.deleteCollect(userId, pId, sId, eId);
+				return CommonResult.build(200, "success");
+			}
+			return CommonResult.build(400, "error");
+		}
+		return CommonResult.build(400, "error");
+	}
+
+	@Override
+	public CommonResult updateUser(User user) throws Exception {
+		try{
+			if(user!=null){
+				String pw= MD5Utils.getMD5(user.getPassword());
+				User key = userMapper.selectByPrimaryKey(user.getId());
+				key.setHeadimage(user.getHeadimage());
+				key.setNickname(user.getNickname());
+				key.setPassword(pw);
+				key.setAdderss(user.getAdderss());
+				key.setBirthday(user.getBirthday());
+				key.setSex(user.getSex());
+				userMapper.updateByPrimaryKey(key);
+				return CommonResult.build(200,"success");
+			}
+			return CommonResult.build(400,"error");
+		}catch (Exception e){
+			e.printStackTrace();
+			return CommonResult.build(401,"Exception");
+		}
+	}
+
 }

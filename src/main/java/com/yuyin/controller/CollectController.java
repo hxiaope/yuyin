@@ -41,4 +41,10 @@ public class CollectController {
     public CommonResult findEssayCollect(Long userId) throws Exception{
         return baseService.findEssayCollect(userId);
     }
+
+    @RequestMapping("/collect/delete")
+    @ResponseBody
+    public CommonResult DelCollect(Long userId,Long pId,Long sId,Long eId) throws Exception{
+        return baseService.deleteCollect(userId,pId,sId,eId);
+    }
 }
