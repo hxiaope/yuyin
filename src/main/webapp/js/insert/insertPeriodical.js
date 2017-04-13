@@ -31,6 +31,7 @@ addPeriodicalApp.controller('addPeriodicalContro',function($http,$scope){
     });
     layui.upload({
         url:'/yuyin/upload/music',
+        ext:'mp3|ape|wav|flac',
         elem:'#musupload',
         before:function(input){//上传前的回调
 			layer.load(1); //风格1的加载

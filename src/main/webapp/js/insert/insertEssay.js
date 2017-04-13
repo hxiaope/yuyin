@@ -99,8 +99,8 @@ addEssayApp.controller('addEssayContro',function ($scope,$http){
 	form.on('submit(essayForm)', function(data){
         ///var formDate=JSON.stringify(data.field);
 		data.field['imagepath']=$("#uploadCpic1").attr('src');
-		data.field['musicimage']=$("#uploadMsic1").attr('src');
-		data.field['musicpath']=$("#uploadMpic1").attr('src');
+		data.field['musicimage']=$("#uploadMpic1").attr('src');
+		data.field['musicpath']=$("#uploadMsic1").attr('src');
 		var essaydata = data.field;
 		console.log(essaydata);
 		$.ajax({

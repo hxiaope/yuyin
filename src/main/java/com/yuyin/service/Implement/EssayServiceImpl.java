@@ -53,6 +53,7 @@ public class EssayServiceImpl implements EssayService{
 					es.setImagepath(essay.getImagepath());
 					es.setCreatetime(essay.getCreatetime());
 					es.setContent(essay.getContent());
+					es.setSubscribe(essay.getSubscribe());
 					es.setAuthor(essay.getAuthor());
 					essaysMapper.insert(es);
 					return CommonResult.build(200, "插入成功");
