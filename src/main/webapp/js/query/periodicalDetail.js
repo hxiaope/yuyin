@@ -29,11 +29,13 @@ pdetailApp.controller('pdetailContro',function($scope){
 					 //console.log(res.data.music);
 					 //console.log(2);
 				 }else{
-					alert("Exception");
+					layer.alert("Exception");
+					location.href="/yuyin";
 				 }
 			 },
 			 error:function(res){
-				alert("Exception"); 
+				layer.alert("Exception");
+                 location.href="/yuyin";
 			 }
 		 });
 	}

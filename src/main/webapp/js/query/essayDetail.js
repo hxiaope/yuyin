@@ -29,11 +29,13 @@ essayDetailApp.controller('essayDetailContro',function($http,$scope){
                     $scope.item=res.data;
                     //console.log(res);
                 }else{
-                    alert("Exception");
+                    layer.alert("Exception");
+                    location.href="/yuyin";
                 }
             },
             error:function(res){
-                alert("Exception");
+                layer.alert("Exception");
+                location.href="/yuyin";
             }
         });
     }

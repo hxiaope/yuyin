@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>首页</title>
     <link rel="stylesheet" href="/yuyin/layui/css/layui.css">
+    <script type="text/javascript " src="/yuyin/js/jquery.min.js"></script>
     <link rel="stylesheet" href="/yuyin/layui/css/mystyle.css">
+    <script src="/yuyin/js/jquery.cookie.js"></script>
     <link rel="icon" href="/yuyin/images/bg.jpg">
 </head>
 <body>
@@ -18,7 +20,7 @@
     </a>
     <ul class="layui-nav my-header-user-nav" lay-filter="demo">
         <li class="layui-nav-item">
-            <a href="javascript:;"><img src="https://avatars1.githubusercontent.com/u/18554575?v=3&s=460" alt="logo"> Admin </a>
+            <a href="javascript:;" id="username"><img src="https://avatars1.githubusercontent.com/u/18554575?v=3&s=460" alt="logo"> Admin </a>
             <dl class="layui-nav-child">
                 <dd><a href="javascript:;" href-url="/yuyin/showUserEdit">修改个人信息</a></dd>
                 <dd><a href="javascript:void(0)" id="logout">退出</a></dd>
@@ -55,6 +57,10 @@
 
 <script src="/yuyin/layui/layui.js"></script>
 <script>
+    var userId=$.cookie("userId");
+    var userName=$.cookie("userName");
+    var headImage=$.cookie("headImage");
+    $('#username').html("<img src=\""+headImage+"\" alt=\"logo\">&nbsp;&nbsp;"+userName);
     layui.use(['layer','jquery','element'], function(){
         var layer = layui.layer,
             $ = layui.jquery,
@@ -66,10 +72,36 @@
                 $('#iframe').attr('src',src);
             }
         });
-            
        $(document).on('click','#logout',function(){
     	  layer.alert("确定退出",{icon: 5},function(){
-    		  window.location.href="/yuyin/logout";
+    		  //window.location.href="/yuyin/logout";
+              $.ajax({
+                  type:'post',
+                  url:'/yuyin/logout',
+                  success:function (res) {
+                      if(res=200){
+                          $.cookie("userId",null, { path: "/"});
+                          $.cookie("userName",null, { path: "/"});
+                          $.cookie("headImage",null, { path: "/"});
+                          window.location.href="/yuyin";
+                      }
+
+                      else{
+                          $.cookie("userId",null, { path: "/"});
+                          $.cookie("userName",null, { path: "/"});
+                          $.cookie("headImage",null, { path: "/"});
+                          layer.alert("异常");
+                          window.location.href="/yuyin";
+                      }
+
+                  },
+                  error:function (res) {
+                      $.cookie("userId",null, { path: "/"});
+                      $.cookie("userName",null, { path: "/"});
+                      $.cookie("headImage",null, { path: "/"});
+                      window.location.href="/yuyin";
+                  }
+              })
     	  }); 
        });
     });
