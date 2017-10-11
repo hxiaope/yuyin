@@ -5,7 +5,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,44 +32,45 @@ public class BaseInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 获取请求URL
-        String url = request.getRequestURI();
-        if(url.indexOf("index")>0){
-            return true;
-        }
-        if(url.indexOf("showLogin")>0){
-            return true;
-        }
-        if(url.indexOf("comment")>0){
-            return true;
-        }
-        if(url.indexOf("register")>0){
-            return true;
-        }
-        if(url.indexOf("login")>0){
-            return true;
-        }
-        if(url.indexOf("loginAdmin")>0){
-            return true;
-        }
-        if(url.indexOf("/periodical")>0){
-            return true;
-        }
-        if(url.indexOf("/single")>0){
-            return true;
-        }
-        if(url.indexOf("/essay")>0){
-            return true;
-        }
-        HttpSession session = request.getSession();
-        Long id= (Long) session.getAttribute("id");
-        String email= (String) session.getAttribute("email");
-        if ( id!= null||email!=null) {
-            // 身份存在，放行
-            return true;
-        }
-        // 执行这里表示用户身份需要认证，跳转登陆页面
-        request.getRequestDispatcher("/index.html").forward(request, response);
-        return false;
+//        String url = request.getRequestURI();
+//        if(url.indexOf("index")>0){
+//            return true;
+//        }
+//        if(url.indexOf("showLogin")>0){
+//            return true;
+//        }
+//        if(url.indexOf("comment")>0){
+//            return true;
+//        }
+//        if(url.indexOf("register")>0){
+//            return true;
+//        }
+//        if(url.indexOf("login")>0){
+//            return true;
+//        }
+//        if(url.indexOf("loginAdmin")>0){
+//            return true;
+//        }
+//        if(url.indexOf("/periodical")>0){
+//            return true;
+//        }
+//        if(url.indexOf("/single")>0){
+//            return true;
+//        }
+//        if(url.indexOf("/essay")>0){
+//            return true;
+//        }
+//        HttpSession session = request.getSession();
+//        Long id= (Long) session.getAttribute("id");
+//        String email= (String) session.getAttribute("email");
+//        if ( id!= null||email!=null) {
+//            // 身份存在，放行
+//            return true;
+//        }
+//        // 执行这里表示用户身份需要认证，跳转登陆页面
+//        request.getRequestDispatcher("/index.html").forward(request, response);
+//        return false;
+        return true;
     }
 
     /**

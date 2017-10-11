@@ -1,18 +1,17 @@
 package com.yuyin.service.Implement;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.yuyin.common.pojo.UploadResult;
+import com.yuyin.common.util.FtpUtil;
+import com.yuyin.common.util.IDUtils;
+import com.yuyin.service.UploadService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yuyin.common.pojo.UploadResult;
-import com.yuyin.common.util.FtpUtil;
-import com.yuyin.common.util.IDUtils;
-import com.yuyin.service.UploadService;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * 上传文件服务实现类
  * @Title:UploadServiceImpl
